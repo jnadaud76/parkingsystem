@@ -19,8 +19,8 @@ public class FareCalculatorService {
         LocalDateTime inDate = ticket.getInTime();
         LocalDateTime outDate = ticket.getOutTime();
 
-        long duration = Duration.between(inDate, outDate).toMinutes();
-
+        long duration2 = Duration.between(inDate, outDate).toMinutes();
+        double duration = (double)duration2/60;
         //TODO: Some tests are failing here. Need to check if this logic is correct
         /*double duration = outHour - inHour;*/
         //double duration = (outDate.getTime() - inDate.getTime())/(1000*60*60);
