@@ -1,24 +1,23 @@
 package com.parkit.parkingsystem.service;
 
+import com.parkit.parkingsystem.constants.DBConstants;
 import com.parkit.parkingsystem.constants.Fare;
+import com.parkit.parkingsystem.dao.config.DataBaseConfig;
 import com.parkit.parkingsystem.model.Ticket;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Date;
+
+import static com.parkit.parkingsystem.constants.Fare.MIN_FREQUENCY_FOR_REGULAR_CUSTOMER;
+
 
 public class FareCalculatorService {
-
+    private static final Logger logger = LogManager.getLogger("FareCalculatorService");
     public void calculateFare(Ticket ticket){
-        /*if( (ticket.getOutTime() == null) || (ticket.getOutTime().isBefore(ticket.getInTime())) ){
-            throw new IllegalArgumentException("Out time provided is incorrect:"+ticket.getOutTime().toString());
-        }
-
-        LocalDateTime inDate = ticket.getInTime();
-        LocalDateTime outDate = ticket.getOutTime();
-
-        long durationInMinutes = Duration.between(inDate, outDate).toMinutes();
-        double duration = (double)durationInMinutes/60;*/
 
         switch (ticket.getParkingSpot().getParkingType()){
             case CAR: {
@@ -52,5 +51,6 @@ public class FareCalculatorService {
         }
         return duration;
 }
-    // Méthode pour la réduction 5%
+
+
 }

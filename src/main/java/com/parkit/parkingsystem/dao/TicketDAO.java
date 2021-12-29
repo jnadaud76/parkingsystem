@@ -14,6 +14,8 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.time.ZoneId;
 
+import static com.parkit.parkingsystem.constants.Fare.MIN_FREQUENCY_FOR_REGULAR_CUSTOMER;
+
 public class TicketDAO {
 
     private static final Logger logger = LogManager.getLogger("TicketDAO");
@@ -86,5 +88,32 @@ public class TicketDAO {
             dataBaseConfig.closeConnection(con);
         }
         return false;
+    }
+
+    public boolean isRegularCustomer(Ticket ticket) {
+        Connection con = null;
+        int result=-1;
+        boolean bol = false;
+        DataBaseConfig dataBaseConfig = new DataBaseConfig();
+
+        try {
+            con = dataBaseConfig.getConnection();
+            PreparedStatement ps = con.prepareStatement(DBConstants.COUNT_VEHICLE_REG_NUMBER_FREQUENCY);
+            ps.setString(1, ticket.getVehicleRegNumber());
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                result = rs.getInt(1);
+            }
+            if (result>=MIN_FREQUENCY_FOR_REGULAR_CUSTOMER){
+                bol=true;
+            }
+            dataBaseConfig.closeResultSet(rs);
+            dataBaseConfig.closePreparedStatement(ps);
+        }catch (Exception ex){
+            logger.error("Error counting frequency of vehicule registration number",ex);
+        }finally {
+            dataBaseConfig.closeConnection(con);
+        }
+        return bol;
     }
 }
