@@ -25,8 +25,7 @@ public class FareCalculatorServiceTest {
     private static FareCalculatorService fareCalculatorService;
     private Ticket ticket;
 
-    @Mock
-    private static TicketDAO ticketDAO;
+
 
     @BeforeAll
     private static void setUp() {
@@ -150,9 +149,9 @@ public class FareCalculatorServiceTest {
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
-        when(ticketDAO.isRegularCustomer(ticket)).thenReturn(true);
+        ticket.setRegular(true);
         fareCalculatorService.calculateFare(ticket);
-        assertEquals((Fare.CAR_RATE_PER_HOUR-((Fare.CAR_RATE_PER_HOUR)*(Fare.FREE_TIME_IN_MINUTES/60)))-(Fare.CAR_RATE_PER_HOUR-((Fare.CAR_RATE_PER_HOUR)*(Fare.FREE_TIME_IN_MINUTES/60))*REGULAR_CUSTOMER_DISCOUNT_RATE), ticket.getPrice());
+        assertEquals(((Fare.CAR_RATE_PER_HOUR-((Fare.CAR_RATE_PER_HOUR)*(Fare.FREE_TIME_IN_MINUTES/60)))*REGULAR_CUSTOMER_DISCOUNT_RATE), ticket.getPrice());
     }
 
 }

@@ -17,15 +17,26 @@ import static com.parkit.parkingsystem.constants.Fare.MIN_FREQUENCY_FOR_REGULAR_
 
 public class FareCalculatorService {
     private static final Logger logger = LogManager.getLogger("FareCalculatorService");
+
+    //Methode qui calcule le prix à payer et applique une remise de 5 pour cent pour les clients réguliers
+
     public void calculateFare(Ticket ticket){
 
         switch (ticket.getParkingSpot().getParkingType()){
             case CAR: {
-                ticket.setPrice(calculateDuration(ticket) * Fare.CAR_RATE_PER_HOUR);
+                if (ticket.getIsRegular()) {
+                    ticket.setPrice(calculateDuration(ticket) * Fare.CAR_RATE_PER_HOUR * Fare.REGULAR_CUSTOMER_DISCOUNT_RATE);
+                }else{
+                    ticket.setPrice(calculateDuration(ticket) * Fare.CAR_RATE_PER_HOUR);
+                }
                 break;
             }
             case BIKE: {
-                ticket.setPrice(calculateDuration(ticket) * Fare.BIKE_RATE_PER_HOUR);
+                if (ticket.getIsRegular()) {
+                    ticket.setPrice(calculateDuration(ticket) * Fare.BIKE_RATE_PER_HOUR * Fare.REGULAR_CUSTOMER_DISCOUNT_RATE);
+                }else {
+                    ticket.setPrice(calculateDuration(ticket) * Fare.BIKE_RATE_PER_HOUR);
+                }
                 break;
             }
             default: throw new IllegalArgumentException("Unkown Parking Type");
