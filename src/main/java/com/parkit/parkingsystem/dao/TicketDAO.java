@@ -91,6 +91,8 @@ public class TicketDAO {
         return false;
     }
 
+    //Détermine si le client est un client régulier
+
     public boolean isRegularCustomer(Ticket ticket) {
         Connection con = null;
         int result=-1;
