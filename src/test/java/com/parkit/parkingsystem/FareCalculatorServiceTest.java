@@ -10,11 +10,13 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.stubbing.Answer;
 
 import static com.parkit.parkingsystem.constants.Fare.REGULAR_CUSTOMER_DISCOUNT_RATE;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.time.LocalDateTime;
 
@@ -24,6 +26,10 @@ public class FareCalculatorServiceTest {
 
     private static FareCalculatorService fareCalculatorService;
     private Ticket ticket;
+
+
+
+
 
 
 
@@ -149,9 +155,45 @@ public class FareCalculatorServiceTest {
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
-        ticket.setRegular(true);
+        ticket.setIsRegular(true);
         fareCalculatorService.calculateFare(ticket);
         assertEquals(((Fare.CAR_RATE_PER_HOUR-((Fare.CAR_RATE_PER_HOUR)*(Fare.FREE_TIME_IN_MINUTES/60)))*REGULAR_CUSTOMER_DISCOUNT_RATE), ticket.getPrice());
     }
+
+    @Test
+    public void calculateFareBikeForRegularCustomer(){
+
+        LocalDateTime inTime = LocalDateTime.now().minusMinutes(60);
+        LocalDateTime outTime = LocalDateTime.now();
+
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE,false);
+
+        ticket.setInTime(inTime);
+        ticket.setOutTime(outTime);
+        ticket.setParkingSpot(parkingSpot);
+        ticket.setIsRegular(true);
+        fareCalculatorService.calculateFare(ticket);
+        assertEquals(((Fare.BIKE_RATE_PER_HOUR-((Fare.BIKE_RATE_PER_HOUR)*(Fare.FREE_TIME_IN_MINUTES/60)))*REGULAR_CUSTOMER_DISCOUNT_RATE), ticket.getPrice());
+    }
+
+    @Test
+    public void calculateFareBadTypeError(){
+
+        FareCalculatorService test = mock(FareCalculatorService.class);
+        LocalDateTime inTime = LocalDateTime.now().minusMinutes(60);
+        LocalDateTime outTime = LocalDateTime.now();
+
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+
+        ticket.setInTime(inTime);
+        ticket.setOutTime(outTime);
+        ticket.setParkingSpot(parkingSpot);
+
+        doThrow(new IllegalArgumentException()).when(test).calculateFare(ticket);
+        test.calculateFare(ticket);
+
+
+    }
+
 
 }

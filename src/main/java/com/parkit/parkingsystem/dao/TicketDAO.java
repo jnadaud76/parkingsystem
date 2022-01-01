@@ -33,15 +33,16 @@ public class TicketDAO {
             ps.setString(2, ticket.getVehicleRegNumber());
             ps.setDouble(3, ticket.getPrice());
             ps.setTimestamp(4, Timestamp.valueOf(ticket.getInTime()));
-            ps.setTimestamp(5, (ticket.getOutTime() == null)?null: (Timestamp.valueOf(ticket.getOutTime())));
+            ps.setTimestamp(5, (ticket.getOutTime() == null) ? null : (Timestamp.valueOf(ticket.getOutTime())));
             ps.setBoolean(6,(ticket.getIsRegular()));
             return ps.execute();
         }catch (Exception ex){
             logger.error("Error fetching next available slot",ex);
         }finally {
             dataBaseConfig.closeConnection(con);
-            return false;
+
         }
+        return false;
     }
 
     public Ticket getTicket(String vehicleRegNumber) {
@@ -62,7 +63,7 @@ public class TicketDAO {
                 ticket.setPrice(rs.getDouble(3));
                 ticket.setInTime(rs.getTimestamp(4).toLocalDateTime());
                 ticket.setOutTime(rs.getTimestamp(5).toLocalDateTime());
-                ticket.setRegular(rs.getBoolean(6));
+                ticket.setIsRegular(rs.getBoolean(6));
             }
             dataBaseConfig.closeResultSet(rs);
             dataBaseConfig.closePreparedStatement(ps);
@@ -70,8 +71,8 @@ public class TicketDAO {
             logger.error("Error fetching next available slot",ex);
         }finally {
             dataBaseConfig.closeConnection(con);
-            return ticket;
         }
+        return ticket;
     }
 
     public boolean updateTicket(Ticket ticket) {
@@ -81,7 +82,8 @@ public class TicketDAO {
             PreparedStatement ps = con.prepareStatement(DBConstants.UPDATE_TICKET);
             ps.setDouble(1, ticket.getPrice());
             ps.setTimestamp(2, Timestamp.valueOf(ticket.getOutTime()));
-            ps.setInt(3,ticket.getId());
+            ps.setBoolean(3, ticket.getIsRegular());
+            ps.setInt(4,ticket.getId());
             ps.execute();
             return true;
         }catch (Exception ex){

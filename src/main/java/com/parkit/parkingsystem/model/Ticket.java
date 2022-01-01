@@ -64,7 +64,7 @@ public class Ticket {
         return isRegular;
     }
 
-    public void setRegular(boolean regular) {
+    public void setIsRegular(boolean regular) {
         isRegular = regular;
     }
 }

@@ -49,7 +49,7 @@ public class FareCalculatorService {
         long durationInMinutes = Duration.between(inDate, outDate).toMinutes();
 
         if (durationInMinutes<=Fare.FREE_TIME_IN_MINUTES){
-            duration = (double) 0;
+            duration = 0;
         } else {
             duration = ((double) durationInMinutes-Fare.FREE_TIME_IN_MINUTES) / 60;
         }
