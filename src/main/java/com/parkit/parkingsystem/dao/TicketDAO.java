@@ -99,8 +99,7 @@ public class TicketDAO {
     public boolean isRegularCustomer(Ticket ticket) {
         Connection con = null;
         int result=-1;
-        boolean bol = false;
-        DataBaseConfig dataBaseConfig = new DataBaseConfig();
+        boolean bol =false;
 
         try {
             con = dataBaseConfig.getConnection();
@@ -109,8 +108,8 @@ public class TicketDAO {
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 result = rs.getInt(1);
-            }
-            if (result>=MIN_FREQUENCY_FOR_REGULAR_CUSTOMER){
+
+            } if (result>=MIN_FREQUENCY_FOR_REGULAR_CUSTOMER){
                 bol=true;
             }
             dataBaseConfig.closeResultSet(rs);

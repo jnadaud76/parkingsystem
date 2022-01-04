@@ -2,21 +2,18 @@ package com.parkit.parkingsystem;
 
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.constants.ParkingType;
-import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.FareCalculatorService;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.stubbing.Answer;
+
 
 import static com.parkit.parkingsystem.constants.Fare.REGULAR_CUSTOMER_DISCOUNT_RATE;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+
 
 import java.time.LocalDateTime;
 
@@ -26,12 +23,6 @@ public class FareCalculatorServiceTest {
 
     private static FareCalculatorService fareCalculatorService;
     private Ticket ticket;
-
-
-
-
-
-
 
     @BeforeAll
     private static void setUp() {
@@ -174,25 +165,6 @@ public class FareCalculatorServiceTest {
         ticket.setIsRegular(true);
         fareCalculatorService.calculateFare(ticket);
         assertEquals(((Fare.BIKE_RATE_PER_HOUR-((Fare.BIKE_RATE_PER_HOUR)*(Fare.FREE_TIME_IN_MINUTES/60)))*REGULAR_CUSTOMER_DISCOUNT_RATE), ticket.getPrice());
-    }
-
-    @Test
-    public void calculateFareBadTypeError(){
-
-        FareCalculatorService test = mock(FareCalculatorService.class);
-        LocalDateTime inTime = LocalDateTime.now().minusMinutes(60);
-        LocalDateTime outTime = LocalDateTime.now();
-
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
-
-        ticket.setInTime(inTime);
-        ticket.setOutTime(outTime);
-        ticket.setParkingSpot(parkingSpot);
-
-        doThrow(new IllegalArgumentException()).when(test).calculateFare(ticket);
-        test.calculateFare(ticket);
-
-
     }
 
 

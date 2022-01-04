@@ -80,7 +80,7 @@ public class ParkingService {
         return parkingSpot;
     }
 
-    private ParkingType getVehichleType(){
+    public ParkingType getVehichleType(){
         System.out.println("Please select vehicle type from menu");
         System.out.println("1 CAR");
         System.out.println("2 BIKE");
@@ -107,7 +107,7 @@ public class ParkingService {
             LocalDateTime outTime = LocalDateTime.now();
             ticket.setIsRegular(isRegular);
             ticket.setOutTime(outTime);
-            fareCalculatorService.calculateFare(ticket);
+             fareCalculatorService.calculateFare(ticket);
             if(ticketDAO.updateTicket(ticket)) {
                 ParkingSpot parkingSpot = ticket.getParkingSpot();
                 parkingSpot.setAvailable(true);
