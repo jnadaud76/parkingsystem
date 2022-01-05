@@ -72,18 +72,19 @@ public class ParkingDataBaseIT {
         assertEquals("ABCDEF", ticket.getVehicleRegNumber());
         assertEquals(new ParkingSpot(1, ParkingType.CAR,false), ticket.getParkingSpot());
         assertNotNull(ticket.getInTime());
-        assertNull(ticket.getOutTime());
+        assertTrue(ticket.getOutTime()==null);
         assertEquals(0,ticket.getPrice());
         assertFalse(ticket.getIsRegular());
         assertTrue(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)==2);
     }
 
     @Test
-    public void testParkingLotExit(){
+    public void testParkingLotExit() throws Exception{
         //Given
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         FareCalculatorService fareCalculatorService = new FareCalculatorService();
         parkingService.processIncomingVehicle();
+        Thread.sleep(1 * 1000);
         //when
         parkingService.processExitingVehicle();
         //TODO: check that the fare generated and out time are populated correctly in the database
@@ -92,7 +93,7 @@ public class ParkingDataBaseIT {
 
         assertEquals((fareCalculatorService.calculateDuration(ticket) * Fare.CAR_RATE_PER_HOUR), ticket.getPrice());
         assertTrue(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)==1);
-        //assertNotNull(ticket.getOutTime());
+        assertFalse(ticket.getOutTime()==null);
     }
 
     @Test
@@ -118,5 +119,7 @@ public class ParkingDataBaseIT {
         Ticket ticket=ticketDAO.getTicket("ABCDEF");
         assertTrue(ticket.getIsRegular());
     }
+
+
 
 }
