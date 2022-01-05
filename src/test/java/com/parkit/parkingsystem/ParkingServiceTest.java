@@ -60,6 +60,28 @@ public class ParkingServiceTest {
         when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(true);
         parkingService.processExitingVehicle();
         verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
+
+    }
+
+    @Test
+    public void GivenRunTimeExceptionWhenProcessExitingVehicleTest(){
+
+        try {
+            when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+        Ticket ticket = new Ticket();
+        ticket.setInTime(LocalDateTime.now());
+        ticket.setParkingSpot(parkingSpot);
+        ticket.setVehicleRegNumber("ABCDEF");
+        doThrow(new RuntimeException()).when(ticketDAO).getTicket(anyString());
+
+        parkingService.processExitingVehicle();
+        verify(ticketDAO, Mockito.times(0)).updateTicket(any(Ticket.class));
+
     }
 
 
@@ -96,11 +118,30 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void givenParkingSpotNullWhenProcessIncomingVehicleTestReturnErrorMessage(){
+    public void givenParkingSpotNullWhenProcessIncomingVehicleTest(){
 
         when(inputReaderUtil.readSelection()).thenReturn(1);
         when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(-1);
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+        ParkingSpot parkingSpot = null;
+        /*Ticket ticket = new Ticket();
+        //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME, IS_REGULAR)
+        ticket.setParkingSpot(parkingSpot);
+        ticket.setVehicleRegNumber("ABCDEF");
+        ticket.setPrice(0);
+        ticket.setInTime(LocalDateTime.now());
+        ticket.setOutTime(null);*/
+
+        parkingService.processIncomingVehicle();
+
+        verify(ticketDAO,Mockito.times(0)).saveTicket(any(Ticket.class));
+    }
+
+    /*@Test
+    public void givenParkingSpotIdEqualZeroWhenProcessIncomingVehicleTest(){
+
+        when(inputReaderUtil.readSelection()).thenReturn(1);
+        when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(0);
+        ParkingSpot parkingSpot = new ParkingSpot(0, ParkingType.CAR,false);
         Ticket ticket = new Ticket();
         //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME, IS_REGULAR)
         ticket.setParkingSpot(parkingSpot);
@@ -109,10 +150,59 @@ public class ParkingServiceTest {
         ticket.setInTime(LocalDateTime.now());
         ticket.setOutTime(null);
 
+
         parkingService.processIncomingVehicle();
 
         verify(ticketDAO,Mockito.times(0)).saveTicket(any(Ticket.class));
     }
+
+    @Test
+    public void givenParkingSpotNotNullAndIdEqualMinusOneWhenProcessIncomingVehicleTest(){
+
+        when(inputReaderUtil.readSelection()).thenReturn(1);
+        when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
+        ParkingSpot parkingSpot = new ParkingSpot(-1, ParkingType.CAR,false);
+        Ticket ticket = new Ticket();
+        //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME, IS_REGULAR)
+        ticket.setParkingSpot(parkingSpot);
+        ticket.setVehicleRegNumber("ABCDEF");
+        ticket.setPrice(0);
+        ticket.setInTime(LocalDateTime.now());
+        ticket.setOutTime(null);
+        ticketDAO.saveTicket(ticket);
+
+        parkingService.processIncomingVehicle();
+
+        verify(ticketDAO,Mockito.times(0)).saveTicket(any(Ticket.class));
+    }*/
+
+    @Test
+    public void givenRunTimeExceptionWhenProcessIncomingVehicleTest(){
+
+        when(inputReaderUtil.readSelection()).thenReturn(1);
+        try {
+            when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+        Ticket ticket = new Ticket();
+        //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME, IS_REGULAR)
+        ticket.setParkingSpot(parkingSpot);
+        ticket.setVehicleRegNumber("ABCDEF");
+        ticket.setPrice(0);
+        ticket.setInTime(LocalDateTime.now());
+        ticket.setOutTime(null);
+        doThrow(new RuntimeException()).when(ticketDAO).saveTicket(any(Ticket.class));
+
+        parkingService.processIncomingVehicle();
+
+        assertTrue(ticketDAO.getTicket("ABCDEF")==null);
+
+
+    }
+
      @Test
     public void givenInputIsOneThenGetVehicleTypeReturnCar() {
         when(inputReaderUtil.readSelection()).thenReturn(1);

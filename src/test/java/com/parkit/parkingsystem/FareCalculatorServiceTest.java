@@ -85,6 +85,19 @@ public class FareCalculatorServiceTest {
     }
 
     @Test
+    public void calculateFareCarWithOutTimeNull(){
+        LocalDateTime inTime = LocalDateTime.now();
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+
+        ticket.setInTime(inTime);
+        ticket.setOutTime(null);
+        ticket.setParkingSpot(parkingSpot);
+        assertThrows(Exception.class, () -> fareCalculatorService.calculateFare(ticket));
+
+    }
+
+
+    @Test
     public void calculateFareBikeWithLessThanOneHourParkingTime(){
         LocalDateTime inTime = LocalDateTime.now().minusMinutes(45);
         LocalDateTime outTime = LocalDateTime.now();

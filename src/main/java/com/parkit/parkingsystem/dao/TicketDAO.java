@@ -24,6 +24,7 @@ public class TicketDAO {
 
     public boolean saveTicket(Ticket ticket){
         Connection con = null;
+        boolean bol=false;
         try {
             con = dataBaseConfig.getConnection();
             PreparedStatement ps = con.prepareStatement(DBConstants.SAVE_TICKET);
@@ -35,14 +36,16 @@ public class TicketDAO {
             ps.setTimestamp(4, Timestamp.valueOf(ticket.getInTime()));
             ps.setTimestamp(5, (ticket.getOutTime() == null) ? null : (Timestamp.valueOf(ticket.getOutTime())));
             ps.setBoolean(6,(ticket.getIsRegular()));
-            return ps.execute();
+            ps.execute();
+            bol = true;
+            dataBaseConfig.closePreparedStatement(ps);
         }catch (Exception ex){
             logger.error("Error fetching next available slot",ex);
         }finally {
             dataBaseConfig.closeConnection(con);
 
         }
-        return false;
+        return bol;
     }
 
     public Ticket getTicket(String vehicleRegNumber) {
@@ -77,6 +80,7 @@ public class TicketDAO {
 
     public boolean updateTicket(Ticket ticket) {
         Connection con = null;
+        boolean bol =false;
         try {
             con = dataBaseConfig.getConnection();
             PreparedStatement ps = con.prepareStatement(DBConstants.UPDATE_TICKET);
@@ -85,13 +89,14 @@ public class TicketDAO {
             ps.setBoolean(3, ticket.getIsRegular());
             ps.setInt(4,ticket.getId());
             ps.execute();
-            return true;
+            bol = true;
+            dataBaseConfig.closePreparedStatement(ps);
         }catch (Exception ex){
             logger.error("Error saving ticket info",ex);
         }finally {
             dataBaseConfig.closeConnection(con);
         }
-        return false;
+        return bol;
     }
 
     //Détermine si le client est un client régulier
