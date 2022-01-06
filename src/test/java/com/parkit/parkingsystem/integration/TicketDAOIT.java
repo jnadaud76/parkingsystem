@@ -11,17 +11,13 @@ import com.parkit.parkingsystem.model.Ticket;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
+
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
-
-@ExtendWith(MockitoExtension.class)
 public class TicketDAOIT {
     private static DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
     private static ParkingSpotDAO parkingSpotDAO;
@@ -29,7 +25,7 @@ public class TicketDAOIT {
     private static DataBasePrepareService dataBasePrepareService;
 
     @BeforeAll
-    private static void setUp() throws Exception{
+    private static void setUp() throws Exception {
         parkingSpotDAO = new ParkingSpotDAO();
         parkingSpotDAO.dataBaseConfig = dataBaseTestConfig;
         ticketDAO = new TicketDAO();
@@ -65,7 +61,7 @@ public class TicketDAOIT {
     public void givenTicketWhenSaveTicketThenReturnTrue() {
         //Given
         LocalDateTime inTime = LocalDateTime.now();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
         Ticket ticket = new Ticket();
         ticket.setParkingSpot(parkingSpot);
         ticket.setVehicleRegNumber("ABCDEF");
@@ -78,8 +74,9 @@ public class TicketDAOIT {
         assertTrue(ticketDAO.saveTicket(ticket));
 
     }
+
     @Test
-    public void givenEmptyDataBaseWhenGetTicketThenReturnNull(){
+    public void givenEmptyDataBaseWhenGetTicketThenReturnNull() {
         //Given
 
         //When
@@ -90,14 +87,11 @@ public class TicketDAOIT {
     }
 
     @Test
-    public void givenDataBaseWithOneTicketWhenGetTicketThenReturnTicket(){
+    public void givenDataBaseWithOneTicketWhenGetTicketThenReturnTicket() {
         //Given
-        LocalDateTime inTime2 = LocalDateTime.now().minusHours(1);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formatDateTime = inTime2.format(formatter);
-        LocalDateTime inTime = LocalDateTime.parse(formatDateTime, formatter);
+        LocalDateTime inTime = LocalDateTime.now().minusHours(1);
 
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
         Ticket ticket = new Ticket();
         ticket.setParkingSpot(parkingSpot);
         ticket.setVehicleRegNumber("ABCDEF");
@@ -111,10 +105,9 @@ public class TicketDAOIT {
         Ticket ticket2 = ticketDAO.getTicket("ABCDEF");
 
         //Then
-        assertEquals(ticket.getInTime(),ticket2.getInTime());
+        assertEquals(ticket.getInTime(), ticket2.getInTime());
         assertNotNull(ticket2);
     }
-
 
 
     @Test

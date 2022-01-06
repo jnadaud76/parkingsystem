@@ -14,6 +14,7 @@ import com.parkit.parkingsystem.util.InputReaderUtil;
 
 import static com.parkit.parkingsystem.constants.Fare.MIN_FREQUENCY_FOR_REGULAR_CUSTOMER;
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +40,7 @@ public class ParkingDataBaseIT {
     private static InputReaderUtil inputReaderUtil;
 
     @BeforeAll
-    private static void setUp() throws Exception{
+    private static void setUp() throws Exception {
         parkingSpotDAO = new ParkingSpotDAO();
         parkingSpotDAO.dataBaseConfig = dataBaseTestConfig;
         ticketDAO = new TicketDAO();
@@ -56,35 +57,35 @@ public class ParkingDataBaseIT {
     }
 
     @AfterAll
-    private static void tearDown(){
+    private static void tearDown() {
 
     }
 
     @Test
-    public void testParkingACar(){
+    public void testParkingACar() {
         //Given
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         //When
         parkingService.processIncomingVehicle();
         //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
         //Then
-        Ticket ticket=ticketDAO.getTicket("ABCDEF");
+        Ticket ticket = ticketDAO.getTicket("ABCDEF");
         assertEquals("ABCDEF", ticket.getVehicleRegNumber());
-        assertEquals(new ParkingSpot(1, ParkingType.CAR,false), ticket.getParkingSpot());
+        assertEquals(new ParkingSpot(1, ParkingType.CAR, false), ticket.getParkingSpot());
         assertNotNull(ticket.getInTime());
-        assertTrue(ticket.getOutTime()==null);
-        assertEquals(0,ticket.getPrice());
+        assertTrue(ticket.getOutTime() == null);
+        assertEquals(0, ticket.getPrice());
         assertFalse(ticket.getIsRegular());
-        assertTrue(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)==2);
+        assertTrue(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR) == 2);
     }
 
     @Test
-    public void testParkingLotExit() throws Exception{
+    public void testParkingLotExit() throws Exception {
         //Given
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         FareCalculatorService fareCalculatorService = new FareCalculatorService();
         parkingService.processIncomingVehicle();
-        Thread.sleep(1 * 1000);
+
         //when
         parkingService.processExitingVehicle();
         //TODO: check that the fare generated and out time are populated correctly in the database
@@ -92,8 +93,8 @@ public class ParkingDataBaseIT {
         Ticket ticket = ticketDAO.getTicket("ABCDEF");
 
         assertEquals((fareCalculatorService.calculateDuration(ticket) * Fare.CAR_RATE_PER_HOUR), ticket.getPrice());
-        assertTrue(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)==1);
-        assertFalse(ticket.getOutTime()==null);
+        assertTrue(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR) == 1);
+        assertFalse(ticket.getOutTime() == null);
     }
 
     @Test
@@ -101,9 +102,9 @@ public class ParkingDataBaseIT {
         //Given
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 
-        for (int i=0; i<MIN_FREQUENCY_FOR_REGULAR_CUSTOMER; i++){
-            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
-            Ticket ticket= new Ticket();
+        for (int i = 0; i < MIN_FREQUENCY_FOR_REGULAR_CUSTOMER; i++) {
+            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+            Ticket ticket = new Ticket();
             ticket.setParkingSpot(parkingSpot);
             ticket.setVehicleRegNumber("ABCDEF");
             ticket.setPrice(0);
@@ -116,10 +117,9 @@ public class ParkingDataBaseIT {
         //when
         parkingService.processExitingVehicle();
         //Then
-        Ticket ticket=ticketDAO.getTicket("ABCDEF");
+        Ticket ticket = ticketDAO.getTicket("ABCDEF");
         assertTrue(ticket.getIsRegular());
     }
-
 
 
 }

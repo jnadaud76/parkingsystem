@@ -1,6 +1,7 @@
 package com.parkit.parkingsystem.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 public class Ticket {
@@ -19,6 +20,7 @@ public class Ticket {
     public void setId(int id) {
         this.id = id;
     }
+
 
     public ParkingSpot getParkingSpot() {
         return parkingSpot;
@@ -49,7 +51,10 @@ public class Ticket {
     }
 
     public void setInTime(LocalDateTime inTime) {
-        this.inTime = inTime;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formatDateTime = inTime.format(formatter);
+        LocalDateTime inTime2 = LocalDateTime.parse(formatDateTime, formatter);
+        this.inTime = inTime2;
     }
 
     public LocalDateTime getOutTime() {
