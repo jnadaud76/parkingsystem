@@ -62,7 +62,7 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void GivenRunTimeExceptionWhenProcessExitingVehicleTest() {
+    public void givenRunTimeExceptionWhenProcessExitingVehicleTest() {
 
         when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
 

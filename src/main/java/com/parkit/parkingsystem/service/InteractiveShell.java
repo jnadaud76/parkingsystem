@@ -37,8 +37,9 @@ public class InteractiveShell {
                     continueApp = false;
                     break;
                 }
-                default:
+                default: {
                     System.out.println("Unsupported option. Please enter a number corresponding to the provided menu");
+                }
             }
         }
     }
