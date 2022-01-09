@@ -58,11 +58,9 @@ public class ParkingServiceTest {
         when(ticketDAO.getTicket(anyString())).thenReturn(ticket);
         when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true);
 
-        when(parkingSpotDAO.updateParking(any(ParkingSpot.class)))
-                .thenReturn(true);
+        when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(true);
         parkingService.processExitingVehicle();
-        verify(parkingSpotDAO, Mockito.times(1))
-                .updateParking(any(ParkingSpot.class));
+        verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
 
     }
 

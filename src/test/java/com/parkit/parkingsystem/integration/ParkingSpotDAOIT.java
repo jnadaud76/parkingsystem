@@ -25,9 +25,9 @@ public class ParkingSpotDAOIT {
     @BeforeAll
     private static void setUp() throws Exception {
         parkingSpotDAO = new ParkingSpotDAO();
-        parkingSpotDAO.dataBaseConfig = dataBaseTestConfig;
+        parkingSpotDAO.setDataBaseConfig(dataBaseTestConfig);
         ticketDAO = new TicketDAO();
-        ticketDAO.dataBaseConfig = dataBaseTestConfig;
+        ticketDAO.setDataBaseConfig(dataBaseTestConfig);
         dataBasePrepareService = new DataBasePrepareService();
     }
 

@@ -223,6 +223,7 @@
                         <exclude>com/parkit/parkingsystem/model/*.class</exclude>
                         <exclude>com/parkit/parkingsystem/util/*.class</exclude>
                         <exclude>com/parkit/parkingsystem/dao/config/*.class</exclude>
+                        <exclude>com/parkit/parkingsystem/service/InteractiveShell.class</exclude>
                     </excludes>
                 </configuration>
                 <reportSets>

@@ -7,11 +7,15 @@ import org.apache.logging.log4j.Logger;
 /**
  *
  */
-public class App {
+public final class App {
     /**
      *
      */
     private static final Logger LOGGER = LogManager.getLogger("App");
+
+    private App() {
+
+    }
 
     /**
      * @param args
