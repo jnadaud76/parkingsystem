@@ -7,11 +7,11 @@ import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.time.temporal.ChronoUnit;
 
 import static com.parkit.parkingsystem.constants.Fare.MIN_FREQUENCY_FOR_REGULAR_CUSTOMER;
 
@@ -64,9 +64,11 @@ public class TicketDAO {
             ps.setString(2, ticket.getVehicleRegNumber());
             ps.setDouble(3, ticket.getPrice());
             ps.setTimestamp(4,
-                    Timestamp.valueOf(ticket.getInTime()));
+                    Timestamp.valueOf(ticket.getInTime()
+                            .truncatedTo(ChronoUnit.SECONDS)));
             ps.setTimestamp(5, (ticket.getOutTime() == null)
-                    ? null : (Timestamp.valueOf(ticket.getOutTime())));
+                    ? null : (Timestamp.valueOf(ticket.getOutTime()
+                    .truncatedTo(ChronoUnit.SECONDS))));
             ps.setBoolean(6, (ticket.getIsRegular()));
             ps.execute();
             bol = true;
@@ -111,9 +113,10 @@ public class TicketDAO {
                 ticket.setVehicleRegNumber(vehicleRegNumber);
                 ticket.setPrice(rs.getDouble(3));
                 ticket.setInTime(rs.getTimestamp(4)
-                        .toLocalDateTime());
-                ticket.setOutTime(rs.getTimestamp(5)
-                        .toLocalDateTime());
+                        .toLocalDateTime().truncatedTo(ChronoUnit.SECONDS));
+                ticket.setOutTime(rs.getTimestamp(5) == null ? null
+                        : rs.getTimestamp(5).toLocalDateTime()
+                        .truncatedTo(ChronoUnit.SECONDS));
                 ticket.setIsRegular(rs.getBoolean(6));
             }
 
@@ -143,7 +146,8 @@ public class TicketDAO {
             ps = con.prepareStatement(DBConstants.UPDATE_TICKET);
             ps.setDouble(1, ticket.getPrice());
             ps.setTimestamp(2,
-                    Timestamp.valueOf(ticket.getOutTime()));
+                    Timestamp.valueOf(ticket.getOutTime()
+                            .truncatedTo(ChronoUnit.SECONDS)));
             ps.setBoolean(3, ticket.getIsRegular());
             ps.setInt(4, ticket.getId());
             ps.execute();

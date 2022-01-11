@@ -1,6 +1,5 @@
 package com.parkit.parkingsystem.service;
 
-
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.model.Ticket;
 
@@ -8,6 +7,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 import static com.parkit.parkingsystem.constants.Fare.DIVIDER_MINUTES_TO_HOURS;
+import static com.parkit.parkingsystem.constants.Fare.REGULAR_CUSTOMER_DISCOUNT_RATE;
 
 
 public class FareCalculatorService {
@@ -19,27 +19,21 @@ public class FareCalculatorService {
      * @param ticket
      */
     public void calculateFare(final Ticket ticket) {
+        double fareRate = calculateFareRate(ticket);
 
         switch (ticket.getParkingSpot().getParkingType()) {
             case CAR:
-                if (ticket.getIsRegular()) {
+
                     ticket.setPrice(calculateDuration(ticket)
                             * Fare.CAR_RATE_PER_HOUR
-                            * Fare.REGULAR_CUSTOMER_DISCOUNT_RATE);
-                } else {
-                    ticket.setPrice(calculateDuration(ticket)
-                            * Fare.CAR_RATE_PER_HOUR);
-                }
+                            * fareRate);
                 break;
             case BIKE:
-                if (ticket.getIsRegular()) {
+
                     ticket.setPrice(calculateDuration(ticket)
                             * Fare.BIKE_RATE_PER_HOUR
-                            * Fare.REGULAR_CUSTOMER_DISCOUNT_RATE);
-                } else {
-                    ticket.setPrice(calculateDuration(ticket)
-                            * Fare.BIKE_RATE_PER_HOUR);
-                }
+                            * fareRate);
+
                 break;
             default:
                 throw new IllegalArgumentException("Unkown Parking Type");
@@ -50,7 +44,7 @@ public class FareCalculatorService {
      * Method to check the time in the parking lot and apply if under 30 minutes
      * then free.
      * @param ticket
-     * @return duration in minutes
+     * @return duration in hours
      */
     public double calculateDuration(final Ticket ticket) {
         if ((ticket.getOutTime() == null)
@@ -68,11 +62,27 @@ public class FareCalculatorService {
             duration = 0;
         } else {
             duration =
-                    ((double) durationInMinutes - Fare.FREE_TIME_IN_MINUTES)
+                    (durationInMinutes - Fare.FREE_TIME_IN_MINUTES)
                             / DIVIDER_MINUTES_TO_HOURS;
         }
         return duration;
     }
 
+    //méthode pour savoir si utilisateur récurrent, si oui alors on retourne
+    // 0.95, si non on retourne 1
 
+    /**
+     *
+     * @param ticket
+     * @return fareRate
+     */
+    public double calculateFareRate(final Ticket ticket) {
+        double fareRate;
+        if (ticket.getIsRegular()) {
+            fareRate = REGULAR_CUSTOMER_DISCOUNT_RATE;
+        } else {
+            fareRate = 1;
+        }
+        return fareRate;
+    }
 }

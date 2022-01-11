@@ -13,7 +13,7 @@ public class DataBaseTestConfig extends DataBaseConfig {
 
     public Connection getConnection() throws ClassNotFoundException, SQLException {
         ResourceBundle res = ResourceBundle.getBundle("jdbc");
-        String url=res.getString("url");
+        String url=res.getString("url2");
         String username=res.getString("username");
         String password=res.getString("password");
         logger.info("Create DB connection");

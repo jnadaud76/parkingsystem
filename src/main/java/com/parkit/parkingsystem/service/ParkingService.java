@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 public class ParkingService {
 
@@ -30,17 +31,17 @@ public class ParkingService {
     /**
      * Tool responsible for reading input provided by the user.
      */
-    private final InputReaderUtil inputReaderUtil;
+    private InputReaderUtil inputReaderUtil;
 
     /**
      * ParkingSpot type data access object.
      */
-    private final ParkingSpotDAO parkingSpotDAO;
+    private ParkingSpotDAO parkingSpotDAO;
 
-    /**
+     /**
      * Ticket type data access object.
      */
-    private final TicketDAO ticketDAO;
+    private TicketDAO ticketDAO;
 
     /**
      * ParkingService constructor.
@@ -69,11 +70,24 @@ public class ParkingService {
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
             if (parkingSpot != null && parkingSpot.getId() > 0) {
                 String vehicleRegNumber = getVehichleRegNumber();
+                Ticket ticket2 = ticketDAO.getTicket(vehicleRegNumber);
+                if (ticket2 != null && ticket2.getOutTime() == null) {
+                    System.out.println("This vehicle is already parked in the"
+                            + " parking lot");
+                    throw new Exception();
+                }
                 parkingSpot.setAvailable(false);
                 parkingSpotDAO.updateParking(parkingSpot); //allot this parking
                 // space and mark it's availability as false
+                boolean isRegular = ticketDAO.isRegularCustomer(ticket2);
+                if (isRegular) {
+                    System.out.println("Welcome back! As a recurring user of "
+                            + "our parking lot, you'll benefit from a 5% "
+                            + "discount");
+                }
 
-                LocalDateTime inTime = LocalDateTime.now();
+                LocalDateTime inTime = LocalDateTime.now()
+                        .truncatedTo(ChronoUnit.SECONDS);
                 Ticket ticket = new Ticket();
                 //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME,
                 // OUT_TIME, IS_REGULAR)
@@ -83,7 +97,7 @@ public class ParkingService {
                 ticket.setPrice(0);
                 ticket.setInTime(inTime);
                 ticket.setOutTime(null);
-                ticket.setIsRegular(false);
+                ticket.setIsRegular(isRegular);
                 ticketDAO.saveTicket(ticket);
                 System.out.println("Generated Ticket and saved in DB");
                 System.out.println("Please park your vehicle in spot number:"
@@ -105,7 +119,9 @@ public class ParkingService {
         System.out.println("Please type the vehicle registration number and"
                 + " press enter key");
         return inputReaderUtil.readVehicleRegistrationNumber();
+
     }
+
 
     /**
      * Give next Parking Spot if available.
@@ -166,9 +182,10 @@ public class ParkingService {
         try {
             String vehicleRegNumber = getVehichleRegNumber();
             Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
-            boolean isRegular = ticketDAO.isRegularCustomer(ticket);
-            LocalDateTime outTime = LocalDateTime.now();
-            ticket.setIsRegular(isRegular);
+            //boolean isRegular = ticketDAO.isRegularCustomer(ticket);
+            LocalDateTime outTime = LocalDateTime.now()
+                    .truncatedTo(ChronoUnit.SECONDS);
+            //ticket.setIsRegular(isRegular);
             ticket.setOutTime(outTime);
             FARE_CALCULATOR_SERVICE.calculateFare(ticket);
             if (ticketDAO.updateTicket(ticket)) {

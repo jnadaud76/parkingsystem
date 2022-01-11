@@ -1,8 +1,6 @@
 package com.parkit.parkingsystem.model;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 
 public class Ticket {
     /**
@@ -37,7 +35,7 @@ public class Ticket {
     /**
      * Getter.
      *
-     * @return id
+     * @return id.
      */
     public int getId() {
         return id;
@@ -46,7 +44,7 @@ public class Ticket {
     /**
      * Setter.
      *
-     * @param idParam
+     * @param idParam ticket id.
      */
     public void setId(final int idParam) {
         this.id = idParam;
@@ -55,7 +53,7 @@ public class Ticket {
     /**
      * Getter.
      *
-     * @return parkingSpot
+     * @return parkingSpot.
      */
     public ParkingSpot getParkingSpot() {
         return new ParkingSpot(parkingSpot.getId(),
@@ -66,7 +64,7 @@ public class Ticket {
     /**
      * Setter.
      *
-     * @param parkingSpotParam
+     * @param parkingSpotParam ticket parking spot.
      */
     public void setParkingSpot(final ParkingSpot parkingSpotParam) {
         this.parkingSpot = parkingSpotParam == null
@@ -79,7 +77,7 @@ public class Ticket {
     /**
      * Getter.
      *
-     * @return vehicleRegNumber
+     * @return vehicleRegNumber.
      */
     public String getVehicleRegNumber() {
         return vehicleRegNumber;
@@ -88,7 +86,7 @@ public class Ticket {
     /**
      * Setter.
      *
-     * @param vehicleRegNumberParam
+     * @param vehicleRegNumberParam vehicle registration number.
      */
     public void setVehicleRegNumber(final String vehicleRegNumberParam) {
         this.vehicleRegNumber = vehicleRegNumberParam;
@@ -97,7 +95,7 @@ public class Ticket {
     /**
      * Getter.
      *
-     * @return price
+     * @return price.
      */
     public double getPrice() {
         return price;
@@ -106,7 +104,7 @@ public class Ticket {
     /**
      * Setter.
      *
-     * @param priceParam
+     * @param priceParam price.
      */
     public void setPrice(final double priceParam) {
         this.price = priceParam;
@@ -115,7 +113,7 @@ public class Ticket {
     /**
      * Getter.
      *
-     * @return inTime
+     * @return inTime.
      */
     public LocalDateTime getInTime() {
         return inTime;
@@ -123,22 +121,17 @@ public class Ticket {
 
     /**
      * Setter.
-     * DateTimeFormatter is used to avoid time conversion problems with
-     * Timestamp in TicketDAO (nanosecond suppression).
      *
-     * @param inTimeParam
+     * @param inTimeParam time entering parking.
      */
     public void setInTime(final LocalDateTime inTimeParam) {
-        DateTimeFormatter formatter =
-                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formatDateTime = inTimeParam.format(formatter);
-        this.inTime = LocalDateTime.parse(formatDateTime, formatter);
+       this.inTime = inTimeParam;
     }
 
     /**
      * Getter.
      *
-     * @return outTime
+     * @return outTime.
      */
     public LocalDateTime getOutTime() {
         return outTime;
@@ -147,7 +140,7 @@ public class Ticket {
     /**
      * Setter.
      *
-     * @param outTimeParam
+     * @param outTimeParam time exiting parking.
      */
     public void setOutTime(final LocalDateTime outTimeParam) {
         this.outTime = outTimeParam;
@@ -156,7 +149,7 @@ public class Ticket {
     /**
      * Getter.
      *
-     * @return isRegular
+     * @return isRegular.
      */
     public boolean getIsRegular() {
         return isRegular;
@@ -165,7 +158,7 @@ public class Ticket {
     /**
      * Setter.
      *
-     * @param regular
+     * @param regular define if customer is regular.
      */
     public void setIsRegular(final boolean regular) {
         isRegular = regular;

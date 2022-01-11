@@ -39,7 +39,7 @@ public class ParkingSpot {
 
     /**
      * Getter.
-     * @return number
+     * @return number.
      */
     public int getId() {
         return number;
@@ -47,7 +47,7 @@ public class ParkingSpot {
 
     /**
      * Setter.
-     * @param numberParam
+     * @param numberParam Number of parking spot.
      */
     public void setId(final int numberParam) {
         this.number = numberParam;
@@ -55,7 +55,7 @@ public class ParkingSpot {
 
     /**
      * Getter.
-     * @return parkingType
+     * @return parkingType.
      */
     public ParkingType getParkingType() {
         return parkingType;
@@ -63,7 +63,7 @@ public class ParkingSpot {
 
     /**
      * Setter.
-     * @param parkingTypeParam
+     * @param parkingTypeParam Parking type of parking spot.
      */
     public void setParkingType(final ParkingType parkingTypeParam) {
         this.parkingType = parkingTypeParam;
@@ -71,7 +71,7 @@ public class ParkingSpot {
 
     /**
      * Getter.
-     * @return isAvailable
+     * @return isAvailable.
      */
     public boolean isAvailable() {
         return isAvailable;
@@ -79,7 +79,7 @@ public class ParkingSpot {
 
     /**
      * Setter.
-     * @param available
+     * @param available Availability of parking spot.
      */
     public void setAvailable(final boolean available) {
         isAvailable = available;
@@ -87,8 +87,8 @@ public class ParkingSpot {
 
     /**
      * equals method.
-     * @param o
-     * @return boolean
+     * @param o object.
+     * @return boolean.
      */
     @Override
     public boolean equals(final Object o) {
@@ -104,7 +104,7 @@ public class ParkingSpot {
 
     /**
      * hashCode method.
-     * @return number
+     * @return number.
      */
     @Override
     public int hashCode() {

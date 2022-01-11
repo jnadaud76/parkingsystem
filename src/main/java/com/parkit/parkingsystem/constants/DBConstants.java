@@ -35,14 +35,14 @@ public final class DBConstants {
             "select t.PARKING_NUMBER, t.ID, t.PRICE, t.IN_TIME, t.OUT_TIME,"
                     + " t.IS_REGULAR, p.TYPE from ticket t,parking p where"
                     + " p.parking_number = t.parking_number and"
-                    + " t.VEHICLE_REG_NUMBER=? order by t.IN_TIME  limit 1";
-    //Compte les occurences d'une plaque d'immatriculation dans la table ticket
-    // au cours des deux derniers mois
+                    + " t.VEHICLE_REG_NUMBER=? order by t.IN_TIME desc limit 1";
+
     /**
+     * Compte les occurences d'une plaque d'immatriculation dans la table
+     * ticket.
      *
      */
     public static final String COUNT_VEHICLE_REG_NUMBER_FREQUENCY =
             "SELECT COUNT(VEHICLE_REG_NUMBER) FROM ticket WHERE"
-                    + " IN_TIME > DATE_ADD(NOW(), INTERVAL -2 MONTH)"
-                    + " AND VEHICLE_REG_NUMBER=?";
+                    + " VEHICLE_REG_NUMBER=?";
 }

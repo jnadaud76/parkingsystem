@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class ParkingSpotDAOIT {
+class ParkingSpotDAOIT {
 
     private static DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
     private static ParkingSpotDAO parkingSpotDAO;
@@ -39,7 +39,7 @@ public class ParkingSpotDAOIT {
     }
 
     @Test
-    public void givenDataBaseWithNoEmptySlotWhenGetNextAvailableSlotForCarThenReturnMinusOne() {
+    void givenDataBaseWithNoEmptySlotWhenGetNextAvailableSlotForCarThenReturnMinusOne() {
         //Given
         for (int i = 0; i < 3; i++) {
             ParkingSpot parkingSpot = new ParkingSpot(i + 1, ParkingType.CAR, false);
@@ -54,7 +54,7 @@ public class ParkingSpotDAOIT {
     }
 
     @Test
-    public void givenDataBaseWithNoEmptySlotForCarButOneEmptySlotForBikeWhenGetNextAvailableSlotForBikeThenReturnOne() {
+    void givenDataBaseWithNoEmptySlotForCarButOneEmptySlotForBikeWhenGetNextAvailableSlotForBikeThenReturnOne() {
         //Given
         for (int i = 0; i < 3; i++) {
             ParkingSpot parkingSpot = new ParkingSpot(i + 1, ParkingType.CAR, false);
@@ -73,18 +73,20 @@ public class ParkingSpotDAOIT {
     }
 
     @Test
-    public void givenParkingSpotWithNoExistenceInDataBaseWhenUpdateParkingThenReturnFalse() {
+    void givenParkingSpotWithNoExistenceInDataBaseWhenUpdateParkingThenReturnFalse() {
         //Given
         ParkingSpot parkingSpot = new ParkingSpot(10, ParkingType.CAR, false);
+
         //When //Then
         assertFalse(parkingSpotDAO.updateParking(parkingSpot));
 
     }
 
     @Test
-    public void givenParkingSpotNumberFourWhenUpdateParkingThenReturnTrue() {
+    void givenParkingSpotNumberFourWhenUpdateParkingThenReturnTrue() {
         //Given
         ParkingSpot parkingSpot = new ParkingSpot(4, ParkingType.BIKE, false);
+
         //When //Then
         assertTrue(parkingSpotDAO.updateParking(parkingSpot));
     }

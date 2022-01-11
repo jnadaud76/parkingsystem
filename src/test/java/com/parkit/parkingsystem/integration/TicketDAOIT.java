@@ -14,11 +14,12 @@ import org.junit.jupiter.api.Test;
 
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class TicketDAOIT {
+class TicketDAOIT {
     private static DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
     private static ParkingSpotDAO parkingSpotDAO;
     private static TicketDAO ticketDAO;
@@ -29,7 +30,7 @@ public class TicketDAOIT {
         parkingSpotDAO = new ParkingSpotDAO();
         parkingSpotDAO.setDataBaseConfig(dataBaseTestConfig);
         ticketDAO = new TicketDAO();
-
+        ticketDAO.setDataBaseConfig(dataBaseTestConfig);
         dataBasePrepareService = new DataBasePrepareService();
     }
 
@@ -41,7 +42,7 @@ public class TicketDAOIT {
     }
 
     @Test
-    public void givenTicketWithParkingSpotNullWhenSaveTicketThenReturnFalse() {
+    void givenTicketWithParkingSpotNullWhenSaveTicketThenReturnFalse() {
         //Given
         LocalDateTime inTime = LocalDateTime.now();
         Ticket ticket = new Ticket();
@@ -58,7 +59,7 @@ public class TicketDAOIT {
     }
 
     @Test
-    public void givenTicketWhenSaveTicketThenReturnTrue() {
+    void givenTicketWhenSaveTicketThenReturnTrue() {
         //Given
         LocalDateTime inTime = LocalDateTime.now();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
@@ -76,7 +77,7 @@ public class TicketDAOIT {
     }
 
     @Test
-    public void givenEmptyDataBaseWhenGetTicketThenReturnNull() {
+    void givenEmptyDataBaseWhenGetTicketThenReturnNull() {
         //Given
 
         //When
@@ -87,9 +88,9 @@ public class TicketDAOIT {
     }
 
     @Test
-    public void givenDataBaseWithOneTicketWhenGetTicketThenReturnTicket() {
+    void givenDataBaseWithOneTicketWhenGetTicketThenReturnTicket() {
         //Given
-        LocalDateTime inTime = LocalDateTime.now().minusHours(1);
+        LocalDateTime inTime = LocalDateTime.now().minusHours(1).truncatedTo(ChronoUnit.SECONDS);
 
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
         Ticket ticket = new Ticket();
@@ -110,10 +111,11 @@ public class TicketDAOIT {
     }
 
 
+
     @Test
-    public void givenTicketWithNullOutTimeWhenUpdateTicketThenReturnFalse() {
+    void givenTicketWithNullOutTimeWhenUpdateTicketThenReturnFalse() {
         //Given
-        LocalDateTime inTime = LocalDateTime.now();
+        LocalDateTime inTime = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
         Ticket ticket = new Ticket();
         ticket.setParkingSpot(parkingSpot);
@@ -128,7 +130,7 @@ public class TicketDAOIT {
     }
 
     @Test
-    public void givenTicketWhenUpdateTicketThenReturnTrue() {
+    void givenTicketWhenUpdateTicketThenReturnTrue() {
         //Given
         LocalDateTime inTime = LocalDateTime.now().minusHours(1);
         LocalDateTime outTime = LocalDateTime.now();
@@ -146,7 +148,7 @@ public class TicketDAOIT {
     }
 
     @Test
-    public void givenNullTicketWhenTryToKnowIfCustomerIsRegularThenReturnFalse() {
+    void givenNullTicketWhenTryToKnowIfCustomerIsRegularThenReturnFalse() {
         //Given
         Ticket ticket = null;
 

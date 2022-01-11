@@ -24,12 +24,16 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class ParkingDataBaseIT {
+class ParkingDataBaseIT {
 
     private static DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
     private static ParkingSpotDAO parkingSpotDAO;
@@ -54,6 +58,7 @@ public class ParkingDataBaseIT {
         when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
         dataBasePrepareService.clearDataBaseEntries();
 
+
     }
 
     @AfterAll
@@ -62,25 +67,27 @@ public class ParkingDataBaseIT {
     }
 
     @Test
-    public void testParkingACar() {
+    void testParkingACar() {
         //Given
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+
         //When
         parkingService.processIncomingVehicle();
+
         //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
         //Then
         Ticket ticket = ticketDAO.getTicket("ABCDEF");
         assertEquals("ABCDEF", ticket.getVehicleRegNumber());
         assertEquals(new ParkingSpot(1, ParkingType.CAR, false), ticket.getParkingSpot());
         assertNotNull(ticket.getInTime());
-        assertTrue(ticket.getOutTime() == null);
+        assertNull(ticket.getOutTime());
         assertEquals(0, ticket.getPrice());
         assertFalse(ticket.getIsRegular());
-        assertTrue(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR) == 2);
+        assertEquals(2, parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR));
     }
 
     @Test
-    public void testParkingLotExit() throws Exception {
+    void testParkingLotExit() throws Exception {
         //Given
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         FareCalculatorService fareCalculatorService = new FareCalculatorService();
@@ -88,37 +95,63 @@ public class ParkingDataBaseIT {
 
         //when
         parkingService.processExitingVehicle();
-        //TODO: check that the fare generated and out time are populated correctly in the database
-        //Then
         Ticket ticket = ticketDAO.getTicket("ABCDEF");
 
+        //TODO: check that the fare generated and out time are populated correctly in the database
+        //Then
         assertEquals((fareCalculatorService.calculateDuration(ticket) * Fare.CAR_RATE_PER_HOUR), ticket.getPrice());
-        assertTrue(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR) == 1);
-        assertFalse(ticket.getOutTime() == null);
+        assertEquals(1,parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR));
+        assertNotNull(ticket.getOutTime());
     }
 
     @Test
-    public void testParkingLotExitForRegularCustomer() {
+    void testParkingACarForAlreadyInsideParkingLot() throws UnsupportedEncodingException {
         //Given
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-
-        for (int i = 0; i < MIN_FREQUENCY_FOR_REGULAR_CUSTOMER; i++) {
-            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+        //for (int i = 0; i < MIN_FREQUENCY_FOR_REGULAR_CUSTOMER; i++) {
+           /* ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
             Ticket ticket = new Ticket();
             ticket.setParkingSpot(parkingSpot);
             ticket.setVehicleRegNumber("ABCDEF");
             ticket.setPrice(0);
-            ticket.setInTime(LocalDateTime.now());
+            ticket.setInTime(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
             ticket.setOutTime(null);
-            ticketDAO.saveTicket(ticket);
-
-        }
+            ticket.setIsRegular(false);
+            ticketDAO.saveTicket(ticket);*/
         parkingService.processIncomingVehicle();
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(outContent, true, "UTF-8");
+        System.setOut(out);
+
+
         //when
-        parkingService.processExitingVehicle();
+        parkingService.processIncomingVehicle();
+
         //Then
-        Ticket ticket = ticketDAO.getTicket("ABCDEF");
-        assertTrue(ticket.getIsRegular());
+        assertTrue(outContent.toString("UTF-8").contains("This vehicle is already parked in the parking lot"));
+    }
+
+    @Test
+    void testParkingACarWhichReturningToParkingOneYearLater() {
+        //Given
+        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+           ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+            Ticket ticket = new Ticket();
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber("ABCDEF");
+            ticket.setPrice(30);
+            ticket.setInTime(LocalDateTime.now().minusYears(1).truncatedTo(ChronoUnit.SECONDS));
+            ticket.setOutTime(LocalDateTime.now().minusYears(1).plusHours(1).truncatedTo(ChronoUnit.SECONDS));
+            ticket.setIsRegular(false);
+            ticketDAO.saveTicket(ticket);
+            parkingService.processIncomingVehicle();
+
+        //When
+            parkingService.processExitingVehicle();
+            double price = ticketDAO.getTicket("ABCDEF").getPrice();
+
+         //Then
+         assertEquals(0, price);
     }
 
 
