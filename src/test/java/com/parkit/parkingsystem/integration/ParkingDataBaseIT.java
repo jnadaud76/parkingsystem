@@ -12,7 +12,6 @@ import com.parkit.parkingsystem.service.FareCalculatorService;
 import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
 
-import static com.parkit.parkingsystem.constants.Fare.MIN_FREQUENCY_FOR_REGULAR_CUSTOMER;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.AfterAll;
@@ -108,27 +107,16 @@ class ParkingDataBaseIT {
     void testParkingACarForAlreadyInsideParkingLot() throws UnsupportedEncodingException {
         //Given
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-        //for (int i = 0; i < MIN_FREQUENCY_FOR_REGULAR_CUSTOMER; i++) {
-           /* ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
-            Ticket ticket = new Ticket();
-            ticket.setParkingSpot(parkingSpot);
-            ticket.setVehicleRegNumber("ABCDEF");
-            ticket.setPrice(0);
-            ticket.setInTime(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
-            ticket.setOutTime(null);
-            ticket.setIsRegular(false);
-            ticketDAO.saveTicket(ticket);*/
         parkingService.processIncomingVehicle();
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(outContent, true, "UTF-8");
         System.setOut(out);
 
-
         //when
         parkingService.processIncomingVehicle();
 
         //Then
-        assertTrue(outContent.toString("UTF-8").contains("This vehicle is already parked in the parking lot"));
+        assertTrue(outContent.toString("UTF-8").contains("The registered vehicle ABCDEF is already parked in the parking lot"));
     }
 
     @Test
@@ -148,10 +136,12 @@ class ParkingDataBaseIT {
 
         //When
             parkingService.processExitingVehicle();
-            double price = ticketDAO.getTicket("ABCDEF").getPrice();
+            Ticket ticket2 = ticketDAO.getTicket("ABCDEF");
+            double price = ticket2.getPrice();
 
          //Then
          assertEquals(0, price);
+         assertTrue(ticket2.getIsRegular());
     }
 
 

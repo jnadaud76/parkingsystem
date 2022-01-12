@@ -75,9 +75,10 @@ public class ParkingService {
                 String vehicleRegNumber = getVehichleRegNumber();
                 Ticket ticket2 = ticketDAO.getTicket(vehicleRegNumber);
                 if (ticket2 != null && ticket2.getOutTime() == null) {
-                    System.out.println("This vehicle is already parked in the"
-                            + " parking lot");
-                    throw new Exception();
+                    System.out.println("The registered vehicle "
+                            + vehicleRegNumber + " is already parked in the "
+                            + "parking lot");
+                   throw new Exception();
                 }
                 parkingSpot.setAvailable(false);
                 parkingSpotDAO.updateParking(parkingSpot);

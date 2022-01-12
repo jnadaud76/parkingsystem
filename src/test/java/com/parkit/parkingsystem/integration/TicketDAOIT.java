@@ -110,7 +110,50 @@ class TicketDAOIT {
         assertNotNull(ticket2);
     }
 
+    @Test
+    void givenTicketWhenIsRegularCustomerThenReturnFalse() {
+        //Given
+        LocalDateTime inTime = LocalDateTime.now().minusHours(1).truncatedTo(ChronoUnit.SECONDS);
 
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+        Ticket ticket = new Ticket();
+        ticket.setParkingSpot(parkingSpot);
+        ticket.setVehicleRegNumber("ABCDEF");
+        ticket.setPrice(0);
+        ticket.setInTime(inTime);
+        ticket.setOutTime(null);
+        ticket.setIsRegular(false);
+
+        //When //Then
+        assertFalse(ticketDAO.isRegularCustomer(ticket));
+    }
+
+    @Test
+    void givenDataBaseWithOneTicketAndTicketWhenIsRegularCustomerThenReturnTrue() {
+        //Given
+        LocalDateTime inTime = LocalDateTime.now().minusHours(1).truncatedTo(ChronoUnit.SECONDS);
+
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+        Ticket ticket = new Ticket();
+        ticket.setParkingSpot(parkingSpot);
+        ticket.setVehicleRegNumber("ABCDEF");
+        ticket.setPrice(0);
+        ticket.setInTime(inTime);
+        ticket.setOutTime(null);
+        ticket.setIsRegular(false);
+        ticketDAO.saveTicket(ticket);
+
+        ParkingSpot parkingSpot2 = new ParkingSpot(2, ParkingType.CAR, false);
+        Ticket ticket2 = new Ticket();
+        ticket2.setParkingSpot(parkingSpot2);
+        ticket2.setVehicleRegNumber("ABCDEF");
+        ticket2.setPrice(0);
+        ticket2.setInTime(inTime);
+        ticket2.setOutTime(null);
+
+        //When //Then
+        assertTrue(ticketDAO.isRegularCustomer(ticket2));
+    }
 
     @Test
     void givenTicketWithNullOutTimeWhenUpdateTicketThenReturnFalse() {
@@ -125,7 +168,7 @@ class TicketDAOIT {
         ticket.setOutTime(null);
         ticket.setIsRegular(false);
 
-        //When//Then
+        //When //Then
         assertFalse(ticketDAO.updateTicket(ticket));
     }
 
