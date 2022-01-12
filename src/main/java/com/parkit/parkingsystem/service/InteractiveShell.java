@@ -13,13 +13,13 @@ public final class InteractiveShell {
     }
 
     /**
-     *
+     * @see Logger
      */
     private static final Logger LOGGER
             = LogManager.getLogger("InteractiveShell");
 
     /**
-     *
+     * Load the interface of application.
      */
     public static void loadInterface() {
         LOGGER.info("App initialized!!!");
@@ -59,7 +59,7 @@ public final class InteractiveShell {
     }
 
     /**
-     *
+     * Load menu of the application.
      */
     private static void loadMenu() {
         System.out.println("Please select an option. Simply enter the number"

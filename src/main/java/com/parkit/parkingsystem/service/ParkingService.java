@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+
 public class ParkingService {
 
     /**
@@ -31,19 +32,19 @@ public class ParkingService {
     /**
      * Tool responsible for reading input provided by the user.
      */
-    private InputReaderUtil inputReaderUtil;
+    private final InputReaderUtil inputReaderUtil;
 
     /**
      * ParkingSpot type data access object.
      */
-    private ParkingSpotDAO parkingSpotDAO;
+    private final ParkingSpotDAO parkingSpotDAO;
 
      /**
      * Ticket type data access object.
      */
-    private TicketDAO ticketDAO;
+    private final TicketDAO ticketDAO;
 
-    /**
+     /**
      * ParkingService constructor.
      *
      * @param inputReaderUtilParam
@@ -58,7 +59,9 @@ public class ParkingService {
                           final TicketDAO ticketDAOParam) {
         this.inputReaderUtil = inputReaderUtilParam;
         this.parkingSpotDAO = parkingSpotDAOParam;
+        //new ParkingSpotDAO(parkingSpotDAOParam);
         this.ticketDAO = ticketDAOParam;
+        //new TicketDAO(ticketDAOParam);
     }
 
     /**
@@ -77,8 +80,7 @@ public class ParkingService {
                     throw new Exception();
                 }
                 parkingSpot.setAvailable(false);
-                parkingSpotDAO.updateParking(parkingSpot); //allot this parking
-                // space and mark it's availability as false
+                parkingSpotDAO.updateParking(parkingSpot);
                 boolean isRegular = ticketDAO.isRegularCustomer(ticket2);
                 if (isRegular) {
                     System.out.println("Welcome back! As a recurring user of "
@@ -89,9 +91,6 @@ public class ParkingService {
                 LocalDateTime inTime = LocalDateTime.now()
                         .truncatedTo(ChronoUnit.SECONDS);
                 Ticket ticket = new Ticket();
-                //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME,
-                // OUT_TIME, IS_REGULAR)
-                //ticket.setId(ticketID);
                 ticket.setParkingSpot(parkingSpot);
                 ticket.setVehicleRegNumber(vehicleRegNumber);
                 ticket.setPrice(0);
@@ -182,10 +181,8 @@ public class ParkingService {
         try {
             String vehicleRegNumber = getVehichleRegNumber();
             Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
-            //boolean isRegular = ticketDAO.isRegularCustomer(ticket);
             LocalDateTime outTime = LocalDateTime.now()
                     .truncatedTo(ChronoUnit.SECONDS);
-            //ticket.setIsRegular(isRegular);
             ticket.setOutTime(outTime);
             FARE_CALCULATOR_SERVICE.calculateFare(ticket);
             if (ticketDAO.updateTicket(ticket)) {

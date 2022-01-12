@@ -16,7 +16,7 @@ public class FareCalculatorService {
      * Method that calculates the price to pay and applies a 5 percent discount
      * for regular customers.
      *
-     * @param ticket
+     * @param ticket ticket.
      */
     public void calculateFare(final Ticket ticket) {
         double fareRate = calculateFareRate(ticket);
@@ -43,7 +43,7 @@ public class FareCalculatorService {
     /**
      * Method to check the time in the parking lot and apply if under 30 minutes
      * then free.
-     * @param ticket
+     * @param ticket ticket.
      * @return duration in hours
      */
     public double calculateDuration(final Ticket ticket) {
@@ -68,13 +68,12 @@ public class FareCalculatorService {
         return duration;
     }
 
-    //méthode pour savoir si utilisateur récurrent, si oui alors on retourne
-    // 0.95, si non on retourne 1
-
     /**
+     * Method to know if recurring user, if so then we return
+     * 0.95, if not we return 1.
      *
-     * @param ticket
-     * @return fareRate
+     * @param ticket ticket
+     * @return fareRate.
      */
     public double calculateFareRate(final Ticket ticket) {
         double fareRate;

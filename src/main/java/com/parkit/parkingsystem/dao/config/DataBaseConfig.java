@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import java.util.ResourceBundle;
+
 public class DataBaseConfig {
     /**
      * @see Logger

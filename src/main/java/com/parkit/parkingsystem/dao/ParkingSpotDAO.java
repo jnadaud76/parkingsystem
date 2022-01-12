@@ -32,16 +32,31 @@ public class ParkingSpotDAO {
 
     /**
      * Setter.
-     * @param dataBaseConfigParam
+     * @param dataBaseConfigParam dataBaseConfig.
      */
     public void setDataBaseConfig(final DataBaseConfig dataBaseConfigParam) {
         this.dataBaseConfig = dataBaseConfigParam;
     }
 
     /**
+     * Default constructor.
+     */
+    public ParkingSpotDAO() {
+
+    }
+
+    /**
+     * Copy constructor.
+     * @param parkingSpotDAO parkingSpotDAO.
+     */
+    public ParkingSpotDAO(final ParkingSpotDAO parkingSpotDAO) {
+        this.dataBaseConfig = parkingSpotDAO.dataBaseConfig;
+    }
+
+    /**
      * Get next available slot for a given parking type.
-     * @param parkingType
-     * @return a parking number
+     * @param parkingType parkingType.
+     * @return a parking number.
      */
     public int getNextAvailableSlot(final ParkingType parkingType) {
         Connection con = null;
@@ -73,8 +88,8 @@ public class ParkingSpotDAO {
     /**
      * Update the availability fo that parking slot.
      *
-     * @param parkingSpot
-     * @return boolean
+     * @param parkingSpot parkingSpot.
+     * @return boolean.
      */
     public boolean updateParking(final ParkingSpot parkingSpot) {
         Connection con = null;

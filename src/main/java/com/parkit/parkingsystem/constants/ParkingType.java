@@ -5,6 +5,7 @@ public enum ParkingType {
      * Parking type car.
      */
     CAR,
+
     /**
      * Parking type bike.
      */

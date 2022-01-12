@@ -38,17 +38,33 @@ public class TicketDAO {
 
     /**
      * Setter.
-     * @param dataBaseConfigParam
+     * @param dataBaseConfigParam dataBaseConfig.
      */
     public void setDataBaseConfig(final DataBaseConfig dataBaseConfigParam) {
         this.dataBaseConfig = dataBaseConfigParam;
     }
 
     /**
+     * Default constructor.
+     */
+    public TicketDAO() {
+
+    }
+
+    /**
+     * Copy constructor.
+     *
+     * @param ticketDAO ticketDAO
+     */
+    public TicketDAO(final TicketDAO ticketDAO) {
+       this.dataBaseConfig = ticketDAO.dataBaseConfig;
+    }
+
+    /**
      * Save a ticket provided in a database.
      *
-     * @param ticket
-     * @return boolean
+     * @param ticket ticket.
+     * @return boolean.
      */
     public boolean saveTicket(final Ticket ticket) {
         Connection con = null;
@@ -86,8 +102,8 @@ public class TicketDAO {
     /**
      * Get a ticket in database from a vehicle registration number provided.
      *
-     * @param vehicleRegNumber
-     * @return Ticket
+     * @param vehicleRegNumber vehicle registration number.
+     * @return Ticket.
      */
     public Ticket getTicket(final String vehicleRegNumber) {
         Connection con = null;
@@ -98,8 +114,6 @@ public class TicketDAO {
         try {
             con = dataBaseConfig.getConnection();
             ps = con.prepareStatement(DBConstants.GET_TICKET);
-            //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME,
-            // IS_REGULAR)
             ps.setString(1, vehicleRegNumber);
             rs = ps.executeQuery();
             if (rs.next()) {
@@ -133,8 +147,8 @@ public class TicketDAO {
     /**
      * Update ticket provided in database.
      *
-     * @param ticket
-     * @return boolean
+     * @param ticket ticket.
+     * @return boolean.
      */
     public boolean updateTicket(final Ticket ticket) {
         Connection con = null;
@@ -166,8 +180,8 @@ public class TicketDAO {
      * Determine if a customer is regular from the analysis of occurrences
      * of his vehicle registration number in the database.
      *
-     * @param ticket
-     * @return boolean
+     * @param ticket ticket.
+     * @return boolean.
      */
     public boolean isRegularCustomer(final Ticket ticket) {
         Connection con = null;

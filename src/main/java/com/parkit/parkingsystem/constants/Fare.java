@@ -7,30 +7,33 @@ public final class Fare {
     }
 
     /**
-     *
+     * Hour fare rate for bike.
      */
     public static final double BIKE_RATE_PER_HOUR = 1.0;
+
     /**
-     *
+     * Hour fare rate for car.
      */
     public static final double CAR_RATE_PER_HOUR = 1.5;
+
     /**
-     *
+     * Free time in minutes.
      */
     public static final double FREE_TIME_IN_MINUTES = 30;
 
     /**
-     * Défini la remise appliquée au client régulier (ici 5 pour cent).
+     * Defines the discount applied to the regular customer.
      */
     public static final double REGULAR_CUSTOMER_DISCOUNT_RATE = 0.95;
 
     /**
-     * Défini la fréquence de passage nécessaire afin d'être considéré comme
-     * client régulier.
+     * Define the frequency of passage necessary in order to be considered as
+     * regular client.
      */
     public static final double MIN_FREQUENCY_FOR_REGULAR_CUSTOMER = 1;
+
     /**
-     *
+     * Divider to convert minutes to hours.
      */
     public static final int DIVIDER_MINUTES_TO_HOURS = 60;
 }

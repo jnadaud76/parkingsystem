@@ -42,7 +42,7 @@ public class InputReaderUtil {
      * Return user choice.
      *
      * @return a String corresponding to the choice entered by the user
-     * (vehicle registration number)
+     * (vehicle registration number).
      */
     public String readVehicleRegistrationNumber() {
         try {

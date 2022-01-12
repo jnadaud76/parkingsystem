@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 
 public final class App {
     /**
-     *
+     * @see Logger
      */
     private static final Logger LOGGER = LogManager.getLogger("App");
 
@@ -15,7 +15,8 @@ public final class App {
     }
 
     /**
-     * @param args
+     * Main method.
+     * @param args String[].
      */
     public static void main(final String[] args) {
         LOGGER.info("Initializing Parking System");
