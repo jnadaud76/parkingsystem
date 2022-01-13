@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 
 import static com.parkit.parkingsystem.constants.Fare.DIVIDER_MINUTES_TO_HOURS;
+import static com.parkit.parkingsystem.constants.Fare.FREE_TIME_IN_MINUTES;
 import static com.parkit.parkingsystem.constants.Fare.REGULAR_CUSTOMER_DISCOUNT_RATE;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -114,6 +115,22 @@ class FareCalculatorServiceTest {
 
     }
 
+    @Test
+    void calculateDurationBikeWithParkingTimeEqualFreeTime(){
+        //Given
+        LocalDateTime inTime = LocalDateTime.now().minusMinutes((long)FREE_TIME_IN_MINUTES);
+        LocalDateTime outTime = LocalDateTime.now();
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
+        ticket.setInTime(inTime);
+        ticket.setOutTime(outTime);
+        ticket.setParkingSpot(parkingSpot);
+
+        //When
+        double duration = fareCalculatorService.calculateDuration(ticket);
+
+        //Then
+        assertEquals(0, duration);
+    }
 
     @Test
     void calculateFareBikeWithLessThanOneHourParkingTime() {

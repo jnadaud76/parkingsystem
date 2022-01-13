@@ -30,7 +30,7 @@ public final class Fare {
      * Define the frequency of passage necessary in order to be considered as
      * regular client.
      */
-    public static final double MIN_FREQUENCY_FOR_REGULAR_CUSTOMER = 1;
+    public static final int MIN_FREQUENCY_FOR_REGULAR_CUSTOMER = 1;
 
     /**
      * Divider to convert minutes to hours.

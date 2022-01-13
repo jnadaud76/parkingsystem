@@ -19,20 +19,19 @@ public class FareCalculatorService {
      * @param ticket ticket.
      */
     public void calculateFare(final Ticket ticket) {
-        double fareRate = calculateFareRate(ticket);
 
         switch (ticket.getParkingSpot().getParkingType()) {
             case CAR:
 
                     ticket.setPrice(calculateDuration(ticket)
                             * Fare.CAR_RATE_PER_HOUR
-                            * fareRate);
+                            * calculateFareRate(ticket));
                 break;
             case BIKE:
 
                     ticket.setPrice(calculateDuration(ticket)
                             * Fare.BIKE_RATE_PER_HOUR
-                            * fareRate);
+                            * calculateFareRate(ticket));
 
                 break;
             default:

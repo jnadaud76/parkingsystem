@@ -26,39 +26,7 @@ public class TicketDAO {
     /**
      * Instance of DataBaseConfig.
      */
-    private DataBaseConfig dataBaseConfig = new DataBaseConfig();
-
-    /**
-     * Getter.
-     * @return dataBaseConfig.
-     */
-    public DataBaseConfig getDataBaseConfig() {
-        return dataBaseConfig;
-    }
-
-    /**
-     * Setter.
-     * @param dataBaseConfigParam dataBaseConfig.
-     */
-    public void setDataBaseConfig(final DataBaseConfig dataBaseConfigParam) {
-        this.dataBaseConfig = dataBaseConfigParam;
-    }
-
-    /**
-     * Default constructor.
-     */
-    public TicketDAO() {
-
-    }
-
-    /**
-     * Copy constructor.
-     *
-     * @param ticketDAO ticketDAO
-     */
-    public TicketDAO(final TicketDAO ticketDAO) {
-       this.dataBaseConfig = ticketDAO.dataBaseConfig;
-    }
+    public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
     /**
      * Save a ticket provided in a database.

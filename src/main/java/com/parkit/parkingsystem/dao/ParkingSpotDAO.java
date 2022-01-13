@@ -20,38 +20,7 @@ public class ParkingSpotDAO {
     /**
      * Instance of DataBaseConfig.
      */
-    private DataBaseConfig dataBaseConfig = new DataBaseConfig();
-
-    /**
-     * Getter.
-     * @return dataBaseConfig.
-     */
-    public DataBaseConfig getDataBaseConfig() {
-        return dataBaseConfig;
-    }
-
-    /**
-     * Setter.
-     * @param dataBaseConfigParam dataBaseConfig.
-     */
-    public void setDataBaseConfig(final DataBaseConfig dataBaseConfigParam) {
-        this.dataBaseConfig = dataBaseConfigParam;
-    }
-
-    /**
-     * Default constructor.
-     */
-    public ParkingSpotDAO() {
-
-    }
-
-    /**
-     * Copy constructor.
-     * @param parkingSpotDAO parkingSpotDAO.
-     */
-    public ParkingSpotDAO(final ParkingSpotDAO parkingSpotDAO) {
-        this.dataBaseConfig = parkingSpotDAO.dataBaseConfig;
-    }
+    public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
     /**
      * Get next available slot for a given parking type.
