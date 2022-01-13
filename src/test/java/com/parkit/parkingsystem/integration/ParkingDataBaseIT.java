@@ -86,7 +86,7 @@ class ParkingDataBaseIT {
     }
 
     @Test
-    void testParkingLotExit() throws Exception {
+    void testParkingLotExit() {
         //Given
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         FareCalculatorService fareCalculatorService = new FareCalculatorService();
