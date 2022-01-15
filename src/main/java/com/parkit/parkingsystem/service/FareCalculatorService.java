@@ -68,8 +68,8 @@ public class FareCalculatorService {
     }
 
     /**
-     * Method to know if recurring user, if so then we return
-     * 0.95, if not we return 1.
+     * Method to know if recurring user, if so then return
+     * REGULAR_CUSTOMER_DISCOUNT_RATE, if not return 1.
      *
      * @param ticket ticket
      * @return fareRate.

@@ -246,5 +246,4 @@ class FareCalculatorServiceTest {
                 , ticket.getPrice());
     }
 
-
 }

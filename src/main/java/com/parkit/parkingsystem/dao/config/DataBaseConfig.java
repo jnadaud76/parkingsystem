@@ -26,8 +26,8 @@ public class DataBaseConfig {
      * Open connection to prod's database.
      *
      * @return a Connection to the prod's database.
-     * @throws ClassNotFoundException
-     * @throws SQLException
+     * @throws ClassNotFoundException a ClassNotFoundException
+     * @throws SQLException a SQLException
      */
     public Connection getConnection() throws ClassNotFoundException,
             SQLException {

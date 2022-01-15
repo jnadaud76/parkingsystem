@@ -1,5 +1,7 @@
 package com.parkit.parkingsystem.integration;
 
+import static com.parkit.parkingsystem.constants.Fare.MIN_FREQUENCY_FOR_REGULAR_CUSTOMER;
+
 import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
@@ -26,7 +28,7 @@ class TicketDAOIT {
     private static DataBasePrepareService dataBasePrepareService;
 
     @BeforeAll
-    private static void setUp() throws Exception {
+    private static void setUp() {
         parkingSpotDAO = new ParkingSpotDAO();
         parkingSpotDAO.dataBaseConfig=dataBaseTestConfig;
         ticketDAO = new TicketDAO();
@@ -35,14 +37,14 @@ class TicketDAOIT {
     }
 
     @BeforeEach
-    private void setUpPerTest() throws Exception {
+    private void setUpPerTest() {
 
         dataBasePrepareService.clearDataBaseEntries();
 
     }
 
     @Test
-    void givenTicketWithParkingSpotNullWhenSaveTicketThenReturnFalse() {
+    void givenTicketWithParkingSpotNull_WhenSaveTicket_ThenReturnFalse() {
         //Given
         LocalDateTime inTime = LocalDateTime.now();
         Ticket ticket = new Ticket();
@@ -59,7 +61,7 @@ class TicketDAOIT {
     }
 
     @Test
-    void givenTicketWhenSaveTicketThenReturnTrue() {
+    void givenTicket_WhenSaveTicket_ThenReturnTrue() {
         //Given
         LocalDateTime inTime = LocalDateTime.now();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
@@ -77,7 +79,7 @@ class TicketDAOIT {
     }
 
     @Test
-    void givenEmptyDataBaseWhenGetTicketThenReturnNull() {
+    void givenEmptyDataBase_WhenGetTicket_ThenReturnNull() {
         //Given
 
         //When
@@ -88,7 +90,7 @@ class TicketDAOIT {
     }
 
     @Test
-    void givenDataBaseWithOneTicketWhenGetTicketThenReturnTicket() {
+    void givenDataBaseWithOneTicket_WhenGetTicket_ThenReturnTicket() {
         //Given
         LocalDateTime inTime = LocalDateTime.now().minusHours(1).truncatedTo(ChronoUnit.SECONDS);
 
@@ -111,7 +113,7 @@ class TicketDAOIT {
     }
 
     @Test
-    void givenTicketWhenIsRegularCustomerThenReturnFalse() {
+    void givenTicket_WhenIsRegularCustomer_ThenReturnFalse() {
         //Given
         LocalDateTime inTime = LocalDateTime.now().minusHours(1).truncatedTo(ChronoUnit.SECONDS);
 
@@ -129,34 +131,38 @@ class TicketDAOIT {
     }
 
     @Test
-    void givenDataBaseWithOneTicketAndTicketWhenIsRegularCustomerThenReturnTrue() {
+    void givenDataBaseWithOneTicketAndTicket_WhenIsRegularCustomer_ThenReturnTrue() {
         //Given
-        LocalDateTime inTime = LocalDateTime.now().minusHours(1).truncatedTo(ChronoUnit.SECONDS);
+        LocalDateTime inTime = LocalDateTime.now()
+                .minusHours(1).truncatedTo(ChronoUnit.SECONDS);
+        LocalDateTime outTime = LocalDateTime.now()
+                .truncatedTo(ChronoUnit.SECONDS);
 
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+        for(int i=0; i<MIN_FREQUENCY_FOR_REGULAR_CUSTOMER; i++) {
+            Ticket ticket = new Ticket();
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber("ABCDEF");
+            ticket.setPrice(0);
+            ticket.setInTime(inTime);
+            ticket.setOutTime(outTime);
+            ticket.setIsRegular(false);
+            ticketDAO.saveTicket(ticket);
+        }
+
         Ticket ticket = new Ticket();
         ticket.setParkingSpot(parkingSpot);
         ticket.setVehicleRegNumber("ABCDEF");
         ticket.setPrice(0);
         ticket.setInTime(inTime);
         ticket.setOutTime(null);
-        ticket.setIsRegular(false);
-        ticketDAO.saveTicket(ticket);
-
-        ParkingSpot parkingSpot2 = new ParkingSpot(2, ParkingType.CAR, false);
-        Ticket ticket2 = new Ticket();
-        ticket2.setParkingSpot(parkingSpot2);
-        ticket2.setVehicleRegNumber("ABCDEF");
-        ticket2.setPrice(0);
-        ticket2.setInTime(inTime);
-        ticket2.setOutTime(null);
 
         //When //Then
-        assertTrue(ticketDAO.isRegularCustomer(ticket2));
+        assertTrue(ticketDAO.isRegularCustomer(ticket));
     }
 
     @Test
-    void givenTicketWithNullOutTimeWhenUpdateTicketThenReturnFalse() {
+    void givenTicketWithNullOutTime_WhenUpdateTicket_ThenReturnFalse() {
         //Given
         LocalDateTime inTime = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
@@ -173,7 +179,7 @@ class TicketDAOIT {
     }
 
     @Test
-    void givenTicketWhenUpdateTicketThenReturnTrue() {
+    void givenTicket_WhenUpdateTicket_ThenReturnTrue() {
         //Given
         LocalDateTime inTime = LocalDateTime.now().minusHours(1);
         LocalDateTime outTime = LocalDateTime.now();
@@ -191,7 +197,7 @@ class TicketDAOIT {
     }
 
     @Test
-    void givenNullTicketWhenTryToKnowIfCustomerIsRegularThenReturnFalse() {
+    void givenNullTicket_WhenTryToKnowIfCustomerIsRegular_ThenReturnFalse() {
         //Given
         Ticket ticket = null;
 

@@ -14,7 +14,6 @@ import com.parkit.parkingsystem.util.InputReaderUtil;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,7 +42,7 @@ class ParkingDataBaseIT {
     private static InputReaderUtil inputReaderUtil;
 
     @BeforeAll
-    private static void setUp() throws Exception {
+    private static void setUp() {
         parkingSpotDAO = new ParkingSpotDAO();
         parkingSpotDAO.dataBaseConfig=dataBaseTestConfig;
         ticketDAO = new TicketDAO();
@@ -52,17 +51,10 @@ class ParkingDataBaseIT {
     }
 
     @BeforeEach
-    private void setUpPerTest() throws Exception {
+    private void setUpPerTest() {
         when(inputReaderUtil.readSelection()).thenReturn(1);
         when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
         dataBasePrepareService.clearDataBaseEntries();
-
-
-    }
-
-    @AfterAll
-    private static void tearDown() {
-
     }
 
     @Test
@@ -73,7 +65,6 @@ class ParkingDataBaseIT {
         //When
         parkingService.processIncomingVehicle();
 
-        //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
         //Then
         Ticket ticket = ticketDAO.getTicket("ABCDEF");
         assertEquals("ABCDEF", ticket.getVehicleRegNumber());
@@ -96,7 +87,6 @@ class ParkingDataBaseIT {
         parkingService.processExitingVehicle();
         Ticket ticket = ticketDAO.getTicket("ABCDEF");
 
-        //TODO: check that the fare generated and out time are populated correctly in the database
         //Then
         assertEquals((fareCalculatorService.calculateDuration(ticket) * Fare.CAR_RATE_PER_HOUR), ticket.getPrice());
         assertEquals(1,parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR));
@@ -104,7 +94,7 @@ class ParkingDataBaseIT {
     }
 
     @Test
-    void testParkingACarForAlreadyInsideParkingLot() throws UnsupportedEncodingException {
+    void testParkingACarWhichIsAlreadyInsideParkingLot() throws UnsupportedEncodingException {
         //Given
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processIncomingVehicle();
@@ -143,6 +133,4 @@ class ParkingDataBaseIT {
          assertEquals(0, price);
          assertTrue(ticket2.getIsRegular());
     }
-
-
 }

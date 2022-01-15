@@ -23,7 +23,7 @@ class ParkingSpotDAOIT {
     private static DataBasePrepareService dataBasePrepareService;
 
     @BeforeAll
-    private static void setUp() throws Exception {
+    private static void setUp() {
         parkingSpotDAO = new ParkingSpotDAO();
         parkingSpotDAO.dataBaseConfig=dataBaseTestConfig;
         ticketDAO = new TicketDAO();
@@ -32,14 +32,14 @@ class ParkingSpotDAOIT {
     }
 
     @BeforeEach
-    private void setUpPerTest() throws Exception {
+    private void setUpPerTest() {
 
         dataBasePrepareService.clearDataBaseEntries();
 
     }
 
     @Test
-    void givenDataBaseWithNoEmptySlotWhenGetNextAvailableSlotForCarThenReturnMinusOne() {
+    void givenDataBaseWithNoEmptySlot_WhenGetNextAvailableSlotForCar_ThenReturnZero() {
         //Given
         for (int i = 0; i < 3; i++) {
             ParkingSpot parkingSpot = new ParkingSpot(i + 1, ParkingType.CAR, false);
@@ -54,7 +54,7 @@ class ParkingSpotDAOIT {
     }
 
     @Test
-    void givenDataBaseWithNoEmptySlotForCarButOneEmptySlotForBikeWhenGetNextAvailableSlotForBikeThenReturnOne() {
+    void givenDataBaseWithNoEmptySlotForCarButOneEmptySlotForBike_WhenGetNextAvailableSlotForBike_ThenReturnOne() {
         //Given
         for (int i = 0; i < 3; i++) {
             ParkingSpot parkingSpot = new ParkingSpot(i + 1, ParkingType.CAR, false);
@@ -73,7 +73,7 @@ class ParkingSpotDAOIT {
     }
 
     @Test
-    void givenParkingSpotWithNoExistenceInDataBaseWhenUpdateParkingThenReturnFalse() {
+    void givenParkingSpotWithNoExistenceInDataBase_WhenUpdateParking_ThenReturnFalse() {
         //Given
         ParkingSpot parkingSpot = new ParkingSpot(10, ParkingType.CAR, false);
 
@@ -83,7 +83,7 @@ class ParkingSpotDAOIT {
     }
 
     @Test
-    void givenParkingSpotNumberFourWhenUpdateParkingThenReturnTrue() {
+    void givenParkingSpotNumberFour_WhenUpdateParking_ThenReturnTrue() {
         //Given
         ParkingSpot parkingSpot = new ParkingSpot(4, ParkingType.BIKE, false);
 

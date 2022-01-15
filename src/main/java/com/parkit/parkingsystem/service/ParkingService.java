@@ -59,9 +59,8 @@ public class ParkingService {
                           final TicketDAO ticketDAOParam) {
         this.inputReaderUtil = inputReaderUtilParam;
         this.parkingSpotDAO = parkingSpotDAOParam;
-        //new ParkingSpotDAO(parkingSpotDAOParam);
         this.ticketDAO = ticketDAOParam;
-        //new TicketDAO(ticketDAOParam);
+
     }
 
     /**
@@ -129,7 +128,7 @@ public class ParkingService {
      * @return a free ParkingSpot.
      */
     public ParkingSpot getNextParkingNumberIfAvailable() {
-        int parkingNumber = 0;
+        int parkingNumber;
         ParkingSpot parkingSpot = null;
         try {
             ParkingType parkingType = getVehichleType();
