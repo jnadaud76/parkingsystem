@@ -23,10 +23,28 @@ public class TicketDAO {
     private static final Logger LOGGER
             = LogManager.getLogger("TicketDAO");
 
+
+
     /**
      * Instance of DataBaseConfig.
      */
-    public DataBaseConfig dataBaseConfig = new DataBaseConfig();
+    private DataBaseConfig dataBaseConfig = new DataBaseConfig();
+
+    /**
+     * Default Constructor.
+     */
+    public TicketDAO() {
+
+    }
+
+    /**
+     * Constructor with param.
+     *
+     * @param dataBaseConfigParam dataBaseConfig
+     */
+    public TicketDAO(final DataBaseConfig dataBaseConfigParam) {
+        this.dataBaseConfig = dataBaseConfigParam;
+    }
 
     /**
      * Save a ticket provided in a database.

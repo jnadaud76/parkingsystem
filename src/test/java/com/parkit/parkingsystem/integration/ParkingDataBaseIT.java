@@ -43,10 +43,10 @@ class ParkingDataBaseIT {
 
     @BeforeAll
     private static void setUp() {
-        parkingSpotDAO = new ParkingSpotDAO();
-        parkingSpotDAO.dataBaseConfig=dataBaseTestConfig;
-        ticketDAO = new TicketDAO();
-        ticketDAO.dataBaseConfig=dataBaseTestConfig;
+        parkingSpotDAO = new ParkingSpotDAO(dataBaseTestConfig);
+        //parkingSpotDAO.setDataBaseConfig(dataBaseTestConfig);
+        ticketDAO = new TicketDAO(dataBaseTestConfig);
+        //ticketDAO.dataBaseConfig=dataBaseTestConfig;
         dataBasePrepareService = new DataBasePrepareService();
     }
 

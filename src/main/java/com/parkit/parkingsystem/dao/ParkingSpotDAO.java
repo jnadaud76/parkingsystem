@@ -17,10 +17,27 @@ public class ParkingSpotDAO {
      */
     private static final Logger LOGGER = LogManager.getLogger("ParkingSpotDAO");
 
+
     /**
      * Instance of DataBaseConfig.
      */
-    public DataBaseConfig dataBaseConfig = new DataBaseConfig();
+    private DataBaseConfig dataBaseConfig = new DataBaseConfig();
+
+    /**
+     * Default Constructor.
+     */
+    public ParkingSpotDAO() {
+
+    }
+
+    /**
+     * Constructor with param.
+     *
+     * @param dataBaseConfigParam dataBaseConfig
+     */
+    public ParkingSpotDAO(final DataBaseConfig dataBaseConfigParam) {
+        this.dataBaseConfig = dataBaseConfigParam;
+    }
 
     /**
      * Get next available slot for a given parking type.
