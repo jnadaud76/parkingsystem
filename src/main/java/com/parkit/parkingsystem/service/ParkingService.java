@@ -181,11 +181,19 @@ public class ParkingService {
         try {
             String vehicleRegNumber = getVehichleRegNumber();
             Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
+           if (ticket != null && ticket.getOutTime() != null) {
+                System.out.println("The registered vehicle "
+                        + vehicleRegNumber + " isn't parked in the "
+                        + "parking lot");
+                throw new Exception();
+            }
             LocalDateTime outTime = LocalDateTime.now()
-                    .truncatedTo(ChronoUnit.SECONDS);
-            ticket.setOutTime(outTime);
-            FARE_CALCULATOR_SERVICE.calculateFare(ticket);
-            if (ticketDAO.updateTicket(ticket)) {
+                              .truncatedTo(ChronoUnit.SECONDS);
+           if (ticket != null) {
+               ticket.setOutTime(outTime);
+               FARE_CALCULATOR_SERVICE.calculateFare(ticket);
+           }
+           if (ticketDAO.updateTicket(ticket)) {
                 ParkingSpot parkingSpot = ticket.getParkingSpot();
                 parkingSpot.setAvailable(true);
                 parkingSpotDAO.updateParking(parkingSpot);

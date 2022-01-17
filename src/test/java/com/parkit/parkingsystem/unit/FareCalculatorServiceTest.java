@@ -104,8 +104,6 @@ class FareCalculatorServiceTest {
     @Test
     void calculateFareCarWithNullTicket() {
         //Given
-        LocalDateTime inTime = LocalDateTime.now();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
         ticket = null;
 
         //When //Then
@@ -154,7 +152,7 @@ class FareCalculatorServiceTest {
     void calculateFareCarWithLessThanOneHourParkingTime() {
         //Given
         LocalDateTime inTime = LocalDateTime.now().minusMinutes(45);
-        LocalDateTime outTime = LocalDateTime.now();//45 minutes parking time should give 3/4th parking fare
+        LocalDateTime outTime = LocalDateTime.now();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);

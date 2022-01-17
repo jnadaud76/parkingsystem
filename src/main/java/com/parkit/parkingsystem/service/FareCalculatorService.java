@@ -18,27 +18,26 @@ public class FareCalculatorService {
      *
      * @param ticket ticket.
      */
-    public void calculateFare(final Ticket ticket) {
+     public void calculateFare(final Ticket ticket) {
 
-        switch (ticket.getParkingSpot().getParkingType()) {
-            case CAR:
+         switch (ticket.getParkingSpot().getParkingType()) {
+             case CAR:
 
-                    ticket.setPrice(calculateDuration(ticket)
-                            * Fare.CAR_RATE_PER_HOUR
-                            * calculateFareRate(ticket));
-                break;
-            case BIKE:
+                 ticket.setPrice(calculateDuration(ticket)
+                         * Fare.CAR_RATE_PER_HOUR
+                         * calculateFareRate(ticket));
+                 break;
+             case BIKE:
 
-                    ticket.setPrice(calculateDuration(ticket)
-                            * Fare.BIKE_RATE_PER_HOUR
-                            * calculateFareRate(ticket));
+                 ticket.setPrice(calculateDuration(ticket)
+                         * Fare.BIKE_RATE_PER_HOUR
+                         * calculateFareRate(ticket));
 
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown Parking Type");
-        }
-    }
-
+                 break;
+             default:
+                 throw new IllegalArgumentException("Unknown Parking Type");
+         }
+     }
     /**
      * Method to check the time in the parking lot and apply if under 30 minutes
      * then free.

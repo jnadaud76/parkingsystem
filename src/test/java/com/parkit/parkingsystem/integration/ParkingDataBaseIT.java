@@ -131,4 +131,21 @@ class ParkingDataBaseIT {
          assertEquals(0, price);
          assertTrue(ticket2.getIsRegular());
     }
+
+    @Test
+    void testExitingACarWhichAlreadyExitingParkingLot() throws UnsupportedEncodingException {
+        //Given
+        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        parkingService.processIncomingVehicle();
+        parkingService.processExitingVehicle();
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(outContent, true, "UTF-8");
+        System.setOut(out);
+
+        //When
+        parkingService.processExitingVehicle();
+
+        //Then
+        assertTrue(outContent.toString("UTF-8").contains("The registered vehicle ABCDEF isn't parked in the parking lot"));
+    }
 }
