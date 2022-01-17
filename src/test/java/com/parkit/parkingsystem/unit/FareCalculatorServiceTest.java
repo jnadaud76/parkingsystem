@@ -102,13 +102,11 @@ class FareCalculatorServiceTest {
     }
 
     @Test
-    void calculateFareCarWithOutTimeNull() {
+    void calculateFareCarWithNullTicket() {
         //Given
         LocalDateTime inTime = LocalDateTime.now();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
-        ticket.setInTime(inTime);
-        ticket.setOutTime(null);
-        ticket.setParkingSpot(parkingSpot);
+        ticket = null;
 
         //When //Then
         assertThrows(Exception.class, () -> fareCalculatorService.calculateFare(ticket));

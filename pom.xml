@@ -144,14 +144,6 @@
                             <goal>test</goal>
                         </goals>
                         <phase>test</phase>
-                        <!--<configuration>
-                            <excludes>
-                                <exclude>none</exclude>
-                            </excludes>
-                            <includes>
-                                <include>**/*IT.java</include>
-                            </includes>
-                        </configuration>-->
                     </execution>
                 </executions>
             </plugin>
@@ -236,14 +228,6 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.5</version>
-                <configuration>
-                    <excludes>
-                        <!--<exclude>com/parkit/parkingsystem/model/*.class</exclude>
-                        <exclude>com/parkit/parkingsystem/util/*.class</exclude>
-                        <exclude>com/parkit/parkingsystem/dao/config/*.class</exclude>
-                        <exclude>com/parkit/parkingsystem/service/InteractiveShell.class</exclude>-->
-                    </excludes>
-                </configuration>
                 <reportSets>
                     <reportSet>
                         <reports>
