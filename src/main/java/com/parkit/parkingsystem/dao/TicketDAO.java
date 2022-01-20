@@ -64,10 +64,10 @@ public class TicketDAO {
             ps.setDouble(3, ticket.getPrice());
             ps.setTimestamp(4,
                     Timestamp.valueOf(ticket.getInTime()
-                            .truncatedTo(ChronoUnit.SECONDS)));
+                            .truncatedTo(ChronoUnit.MINUTES)));
             ps.setTimestamp(5, (ticket.getOutTime() == null)
                     ? null : (Timestamp.valueOf(ticket.getOutTime()
-                    .truncatedTo(ChronoUnit.SECONDS))));
+                    .truncatedTo(ChronoUnit.MINUTES))));
             ps.setBoolean(6, (ticket.getIsRegular()));
             ps.execute();
             bol = true;
@@ -110,10 +110,10 @@ public class TicketDAO {
                 ticket.setVehicleRegNumber(vehicleRegNumber);
                 ticket.setPrice(rs.getDouble(3));
                 ticket.setInTime(rs.getTimestamp(4)
-                        .toLocalDateTime().truncatedTo(ChronoUnit.SECONDS));
+                        .toLocalDateTime().truncatedTo(ChronoUnit.MINUTES));
                 ticket.setOutTime(rs.getTimestamp(5) == null ? null
                         : rs.getTimestamp(5).toLocalDateTime()
-                        .truncatedTo(ChronoUnit.SECONDS));
+                        .truncatedTo(ChronoUnit.MINUTES));
                 ticket.setIsRegular(rs.getBoolean(6));
             }
 
@@ -144,7 +144,7 @@ public class TicketDAO {
             ps.setDouble(1, ticket.getPrice());
             ps.setTimestamp(2,
                     Timestamp.valueOf(ticket.getOutTime()
-                            .truncatedTo(ChronoUnit.SECONDS)));
+                            .truncatedTo(ChronoUnit.MINUTES)));
             ps.setBoolean(3, ticket.getIsRegular());
             ps.setInt(4, ticket.getId());
             ps.execute();

@@ -116,8 +116,8 @@ class ParkingDataBaseIT {
             ticket.setParkingSpot(parkingSpot);
             ticket.setVehicleRegNumber("ABCDEF");
             ticket.setPrice(30);
-            ticket.setInTime(LocalDateTime.now().minusYears(1).truncatedTo(ChronoUnit.SECONDS));
-            ticket.setOutTime(LocalDateTime.now().minusYears(1).plusHours(1).truncatedTo(ChronoUnit.SECONDS));
+            ticket.setInTime(LocalDateTime.now().minusYears(1).truncatedTo(ChronoUnit.MINUTES));
+            ticket.setOutTime(LocalDateTime.now().minusYears(1).plusHours(1).truncatedTo(ChronoUnit.MINUTES));
             ticket.setIsRegular(false);
             ticketDAO.saveTicket(ticket);
             parkingService.processIncomingVehicle();

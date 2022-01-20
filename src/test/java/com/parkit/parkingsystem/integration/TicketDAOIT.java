@@ -88,7 +88,7 @@ class TicketDAOIT {
     @Test
     void givenDataBaseWithOneTicket_WhenGetTicket_ThenReturnTicket() {
         //Given
-        LocalDateTime inTime = LocalDateTime.now().minusHours(1).truncatedTo(ChronoUnit.SECONDS);
+        LocalDateTime inTime = LocalDateTime.now().minusHours(1).truncatedTo(ChronoUnit.MINUTES);
 
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
         Ticket ticket = new Ticket();
@@ -111,7 +111,7 @@ class TicketDAOIT {
     @Test
     void givenTicket_WhenIsRegularCustomer_ThenReturnFalse() {
         //Given
-        LocalDateTime inTime = LocalDateTime.now().minusHours(1).truncatedTo(ChronoUnit.SECONDS);
+        LocalDateTime inTime = LocalDateTime.now().minusHours(1).truncatedTo(ChronoUnit.MINUTES);
 
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
         Ticket ticket = new Ticket();
@@ -130,9 +130,9 @@ class TicketDAOIT {
     void givenDataBaseWithOneTicketAndTicket_WhenIsRegularCustomer_ThenReturnTrue() {
         //Given
         LocalDateTime inTime = LocalDateTime.now()
-                .minusHours(1).truncatedTo(ChronoUnit.SECONDS);
+                .minusHours(1).truncatedTo(ChronoUnit.MINUTES);
         LocalDateTime outTime = LocalDateTime.now()
-                .truncatedTo(ChronoUnit.SECONDS);
+                .truncatedTo(ChronoUnit.MINUTES);
 
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
         for(int i=0; i<MIN_FREQUENCY_FOR_REGULAR_CUSTOMER; i++) {
@@ -160,7 +160,7 @@ class TicketDAOIT {
     @Test
     void givenTicketWithNullOutTime_WhenUpdateTicket_ThenReturnFalse() {
         //Given
-        LocalDateTime inTime = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+        LocalDateTime inTime = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
         Ticket ticket = new Ticket();
         ticket.setParkingSpot(parkingSpot);

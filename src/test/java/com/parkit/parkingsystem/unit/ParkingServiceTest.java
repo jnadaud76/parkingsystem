@@ -52,7 +52,7 @@ class ParkingServiceTest {
         //Given
         when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
-        ticket.setInTime(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+        ticket.setInTime(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES));
         ticket.setParkingSpot(parkingSpot);
         ticket.setVehicleRegNumber("ABCDEF");
         when(ticketDAO.getTicket(anyString())).thenReturn(ticket);
@@ -228,7 +228,7 @@ class ParkingServiceTest {
         //Given
         when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
-        ticket.setInTime(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+        ticket.setInTime(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES));
         ticket.setParkingSpot(parkingSpot);
         ticket.setVehicleRegNumber("ABCDEF");
         when(ticketDAO.getTicket(anyString())).thenReturn(ticket);

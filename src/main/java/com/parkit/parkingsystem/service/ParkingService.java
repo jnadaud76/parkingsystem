@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
@@ -89,7 +90,7 @@ public class ParkingService {
                 }
 
                 LocalDateTime inTime = LocalDateTime.now()
-                        .truncatedTo(ChronoUnit.SECONDS);
+                        .truncatedTo(ChronoUnit.MINUTES);
                 Ticket ticket = new Ticket();
                 ticket.setParkingSpot(parkingSpot);
                 ticket.setVehicleRegNumber(vehicleRegNumber);
@@ -178,6 +179,9 @@ public class ParkingService {
      * Process for vehicles exiting parking lot.
      */
     public void processExitingVehicle() {
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+        df.setMinimumFractionDigits(2);
         try {
             String vehicleRegNumber = getVehichleRegNumber();
             Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
@@ -188,17 +192,17 @@ public class ParkingService {
                 throw new Exception();
             }
             LocalDateTime outTime = LocalDateTime.now()
-                              .truncatedTo(ChronoUnit.SECONDS);
+                              .truncatedTo(ChronoUnit.MINUTES);
            if (ticket != null) {
                ticket.setOutTime(outTime);
                FARE_CALCULATOR_SERVICE.calculateFare(ticket);
            }
-           if (ticketDAO.updateTicket(ticket)) {
+           if (ticket !=null && ticketDAO.updateTicket(ticket)) {
                 ParkingSpot parkingSpot = ticket.getParkingSpot();
                 parkingSpot.setAvailable(true);
                 parkingSpotDAO.updateParking(parkingSpot);
                 System.out.println("Please pay the parking fare:"
-                        + ticket.getPrice());
+                        + df.format(ticket.getPrice()));
                 System.out.println("Recorded out-time for vehicle number:"
                         + ticket.getVehicleRegNumber() + " is:" + outTime);
             } else {
