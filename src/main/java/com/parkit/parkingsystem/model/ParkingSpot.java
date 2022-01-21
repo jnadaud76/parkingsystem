@@ -86,7 +86,7 @@ public class ParkingSpot {
     }
 
     /**
-     * equals method.
+     * Equals method.
      * @param o object.
      * @return boolean.
      */
@@ -103,7 +103,7 @@ public class ParkingSpot {
     }
 
     /**
-     * hashCode method.
+     * HashCode method.
      * @return number.
      */
     @Override

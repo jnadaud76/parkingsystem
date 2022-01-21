@@ -197,7 +197,7 @@ public class ParkingService {
                ticket.setOutTime(outTime);
                FARE_CALCULATOR_SERVICE.calculateFare(ticket);
            }
-           if (ticket !=null && ticketDAO.updateTicket(ticket)) {
+           if (ticket != null && ticketDAO.updateTicket(ticket)) {
                 ParkingSpot parkingSpot = ticket.getParkingSpot();
                 parkingSpot.setAvailable(true);
                 parkingSpotDAO.updateParking(parkingSpot);

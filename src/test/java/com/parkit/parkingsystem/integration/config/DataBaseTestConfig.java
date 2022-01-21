@@ -9,7 +9,8 @@ import java.util.ResourceBundle;
 
 public class DataBaseTestConfig extends DataBaseConfig {
 
-    private static final Logger logger = LogManager.getLogger("DataBaseTestConfig");
+    private static final Logger logger =
+            LogManager.getLogger("DataBaseTestConfig");
 
     public Connection getConnection() throws ClassNotFoundException, SQLException {
         ResourceBundle res = ResourceBundle.getBundle("jdbc");

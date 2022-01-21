@@ -38,7 +38,8 @@ class ParkingSpotDAOIT {
     void givenDataBaseWithNoEmptySlot_WhenGetNextAvailableSlotForCar_ThenReturnZero() {
         //Given
         for (int i = 0; i < 3; i++) {
-            ParkingSpot parkingSpot = new ParkingSpot(i + 1, ParkingType.CAR, false);
+            ParkingSpot parkingSpot =
+                    new ParkingSpot(i + 1, ParkingType.CAR, false);
             parkingSpotDAO.updateParking(parkingSpot);
         }
         //When
@@ -53,11 +54,13 @@ class ParkingSpotDAOIT {
     void givenDataBaseWithNoEmptySlotForCarButOneEmptySlotForBike_WhenGetNextAvailableSlotForBike_ThenReturnOne() {
         //Given
         for (int i = 0; i < 3; i++) {
-            ParkingSpot parkingSpot = new ParkingSpot(i + 1, ParkingType.CAR, false);
+            ParkingSpot parkingSpot =
+                    new ParkingSpot(i + 1, ParkingType.CAR, false);
             parkingSpotDAO.updateParking(parkingSpot);
 
         }
-        ParkingSpot parkingSpot = new ParkingSpot(4, ParkingType.BIKE, false);
+        ParkingSpot parkingSpot =
+                new ParkingSpot(4, ParkingType.BIKE, false);
         parkingSpotDAO.updateParking(parkingSpot);
 
         //When
@@ -71,7 +74,8 @@ class ParkingSpotDAOIT {
     @Test
     void givenParkingSpotWithNoExistenceInDataBase_WhenUpdateParking_ThenReturnFalse() {
         //Given
-        ParkingSpot parkingSpot = new ParkingSpot(10, ParkingType.CAR, false);
+        ParkingSpot parkingSpot =
+                new ParkingSpot(10, ParkingType.CAR, false);
 
         //When //Then
         assertFalse(parkingSpotDAO.updateParking(parkingSpot));
@@ -81,7 +85,8 @@ class ParkingSpotDAOIT {
     @Test
     void givenParkingSpotNumberFour_WhenUpdateParking_ThenReturnTrue() {
         //Given
-        ParkingSpot parkingSpot = new ParkingSpot(4, ParkingType.BIKE, false);
+        ParkingSpot parkingSpot =
+                new ParkingSpot(4, ParkingType.BIKE, false);
 
         //When //Then
         assertTrue(parkingSpotDAO.updateParking(parkingSpot));

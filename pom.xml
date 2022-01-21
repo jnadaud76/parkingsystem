@@ -7,6 +7,14 @@
     <artifactId>parking-system</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
+    <name>Park'it</name>
+    <description>The purpose of this application is to process the entrances and exits
+    of a parking lot by managing the available space and by calculating the
+    price to be paid according to the time spent in the parking lot.
+    </description>
+    <organization>
+    <name>Move'it</name>
+    </organization>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -107,6 +115,11 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
                 <version>3.10.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>3.1.2</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

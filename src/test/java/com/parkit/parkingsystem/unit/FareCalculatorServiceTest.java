@@ -40,7 +40,8 @@ class FareCalculatorServiceTest {
         //Given
         LocalDateTime inTime = LocalDateTime.now().minusMinutes(60);
         LocalDateTime outTime = LocalDateTime.now();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+        ParkingSpot parkingSpot =
+                new ParkingSpot(1, ParkingType.CAR,false);
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
@@ -59,7 +60,8 @@ class FareCalculatorServiceTest {
         //Given
         LocalDateTime inTime = LocalDateTime.now().minusMinutes(60);
         LocalDateTime outTime = LocalDateTime.now();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE,false);
+        ParkingSpot parkingSpot =
+                new ParkingSpot(1, ParkingType.BIKE,false);
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
@@ -78,13 +80,15 @@ class FareCalculatorServiceTest {
         //Given
         LocalDateTime inTime = LocalDateTime.now().minusMinutes(60);
         LocalDateTime outTime = LocalDateTime.now();
-        ParkingSpot parkingSpot = new ParkingSpot(1, null, false);
+        ParkingSpot parkingSpot =
+                new ParkingSpot(1, null, false);
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
 
         //When //Then
-        assertThrows(NullPointerException.class, () -> fareCalculatorService.calculateFare(ticket));
+        assertThrows(NullPointerException.class,
+                () -> fareCalculatorService.calculateFare(ticket));
     }
 
     @Test
@@ -92,13 +96,15 @@ class FareCalculatorServiceTest {
         //Given
         LocalDateTime inTime = LocalDateTime.now().plusMinutes(60);
         LocalDateTime outTime = LocalDateTime.now();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
+        ParkingSpot parkingSpot =
+                new ParkingSpot(1, ParkingType.BIKE, false);
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
 
         //When //Then
-        assertThrows(IllegalArgumentException.class, () -> fareCalculatorService.calculateFare(ticket));
+        assertThrows(IllegalArgumentException.class,
+                () -> fareCalculatorService.calculateFare(ticket));
     }
 
     @Test
@@ -107,16 +113,19 @@ class FareCalculatorServiceTest {
         ticket = null;
 
         //When //Then
-        assertThrows(Exception.class, () -> fareCalculatorService.calculateFare(ticket));
+        assertThrows(Exception.class,
+                () -> fareCalculatorService.calculateFare(ticket));
 
     }
 
     @Test
     void calculateDurationBikeWithParkingTimeEqualFreeTime(){
         //Given
-        LocalDateTime inTime = LocalDateTime.now().minusMinutes((long)FREE_TIME_IN_MINUTES);
+        LocalDateTime inTime = LocalDateTime.now()
+                .minusMinutes((long)FREE_TIME_IN_MINUTES);
         LocalDateTime outTime = LocalDateTime.now();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
+        ParkingSpot parkingSpot =
+                new ParkingSpot(1, ParkingType.BIKE, false);
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
@@ -133,7 +142,8 @@ class FareCalculatorServiceTest {
         //Given
         LocalDateTime inTime = LocalDateTime.now().minusMinutes(45);
         LocalDateTime outTime = LocalDateTime.now();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
+        ParkingSpot parkingSpot =
+                new ParkingSpot(1, ParkingType.BIKE, false);
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
@@ -153,7 +163,8 @@ class FareCalculatorServiceTest {
         //Given
         LocalDateTime inTime = LocalDateTime.now().minusMinutes(45);
         LocalDateTime outTime = LocalDateTime.now();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+        ParkingSpot parkingSpot =
+                new ParkingSpot(1, ParkingType.CAR, false);
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
@@ -173,7 +184,8 @@ class FareCalculatorServiceTest {
         //Given
         LocalDateTime inTime = LocalDateTime.now().minusHours(24);
         LocalDateTime outTime = LocalDateTime.now();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+        ParkingSpot parkingSpot =
+                new ParkingSpot(1, ParkingType.CAR, false);
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
@@ -193,7 +205,8 @@ class FareCalculatorServiceTest {
         //Given
         LocalDateTime inTime = LocalDateTime.now().minusHours(24);
         LocalDateTime outTime = LocalDateTime.now();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+        ParkingSpot parkingSpot =
+                new ParkingSpot(1, ParkingType.CAR, false);
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
@@ -209,7 +222,8 @@ class FareCalculatorServiceTest {
         //Given
         LocalDateTime inTime = LocalDateTime.now().minusMinutes(60);
         LocalDateTime outTime = LocalDateTime.now();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+        ParkingSpot parkingSpot =
+                new ParkingSpot(1, ParkingType.CAR, false);
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
@@ -227,7 +241,8 @@ class FareCalculatorServiceTest {
         //Given
         LocalDateTime inTime = LocalDateTime.now().minusMinutes(60);
         LocalDateTime outTime = LocalDateTime.now();
-        ParkingSpot parkingSpot = new ParkingSpot(4, ParkingType.BIKE, false);
+        ParkingSpot parkingSpot =
+                new ParkingSpot(4, ParkingType.BIKE, false);
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);

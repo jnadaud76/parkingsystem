@@ -22,7 +22,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 class TicketDAOIT {
-    private static final DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
+    private static final DataBaseTestConfig dataBaseTestConfig =
+            new DataBaseTestConfig();
     private static TicketDAO ticketDAO;
     private static DataBasePrepareService dataBasePrepareService;
 
@@ -60,7 +61,8 @@ class TicketDAOIT {
     void givenTicket_WhenSaveTicket_ThenReturnTrue() {
         //Given
         LocalDateTime inTime = LocalDateTime.now();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+        ParkingSpot parkingSpot =
+                new ParkingSpot(1, ParkingType.CAR, false);
         Ticket ticket = new Ticket();
         ticket.setParkingSpot(parkingSpot);
         ticket.setVehicleRegNumber("ABCDEF");
@@ -88,9 +90,11 @@ class TicketDAOIT {
     @Test
     void givenDataBaseWithOneTicket_WhenGetTicket_ThenReturnTicket() {
         //Given
-        LocalDateTime inTime = LocalDateTime.now().minusHours(1).truncatedTo(ChronoUnit.MINUTES);
+        LocalDateTime inTime = LocalDateTime.now()
+                .minusHours(1).truncatedTo(ChronoUnit.MINUTES);
 
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+        ParkingSpot parkingSpot =
+                new ParkingSpot(1, ParkingType.CAR, false);
         Ticket ticket = new Ticket();
         ticket.setParkingSpot(parkingSpot);
         ticket.setVehicleRegNumber("ABCDEF");
@@ -111,9 +115,11 @@ class TicketDAOIT {
     @Test
     void givenTicket_WhenIsRegularCustomer_ThenReturnFalse() {
         //Given
-        LocalDateTime inTime = LocalDateTime.now().minusHours(1).truncatedTo(ChronoUnit.MINUTES);
+        LocalDateTime inTime = LocalDateTime.now()
+                .minusHours(1).truncatedTo(ChronoUnit.MINUTES);
 
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+        ParkingSpot parkingSpot =
+                new ParkingSpot(1, ParkingType.CAR, false);
         Ticket ticket = new Ticket();
         ticket.setParkingSpot(parkingSpot);
         ticket.setVehicleRegNumber("ABCDEF");
@@ -134,7 +140,8 @@ class TicketDAOIT {
         LocalDateTime outTime = LocalDateTime.now()
                 .truncatedTo(ChronoUnit.MINUTES);
 
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+        ParkingSpot parkingSpot =
+                new ParkingSpot(1, ParkingType.CAR, false);
         for(int i=0; i<MIN_FREQUENCY_FOR_REGULAR_CUSTOMER; i++) {
             Ticket ticket = new Ticket();
             ticket.setParkingSpot(parkingSpot);
@@ -161,7 +168,8 @@ class TicketDAOIT {
     void givenTicketWithNullOutTime_WhenUpdateTicket_ThenReturnFalse() {
         //Given
         LocalDateTime inTime = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+        ParkingSpot parkingSpot =
+                new ParkingSpot(1, ParkingType.CAR, false);
         Ticket ticket = new Ticket();
         ticket.setParkingSpot(parkingSpot);
         ticket.setVehicleRegNumber("ABCDEF");
@@ -179,7 +187,8 @@ class TicketDAOIT {
         //Given
         LocalDateTime inTime = LocalDateTime.now().minusHours(1);
         LocalDateTime outTime = LocalDateTime.now();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+        ParkingSpot parkingSpot =
+                new ParkingSpot(1, ParkingType.CAR, false);
         Ticket ticket = new Ticket();
         ticket.setParkingSpot(parkingSpot);
         ticket.setVehicleRegNumber("ABCDEF");

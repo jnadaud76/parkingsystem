@@ -33,7 +33,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class ParkingDataBaseIT {
 
-    private static final DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
+    private static final DataBaseTestConfig dataBaseTestConfig =
+            new DataBaseTestConfig();
     private static ParkingSpotDAO parkingSpotDAO;
     private static TicketDAO ticketDAO;
     private static DataBasePrepareService dataBasePrepareService;
@@ -51,14 +52,16 @@ class ParkingDataBaseIT {
     @BeforeEach
     private void setUpPerTest() {
         when(inputReaderUtil.readSelection()).thenReturn(1);
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+        when(inputReaderUtil.readVehicleRegistrationNumber())
+                .thenReturn("ABCDEF");
         dataBasePrepareService.clearDataBaseEntries();
     }
 
     @Test
     void testParkingACar() {
         //Given
-        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        ParkingService parkingService =
+                new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 
         //When
         parkingService.processIncomingVehicle();
@@ -66,18 +69,21 @@ class ParkingDataBaseIT {
         //Then
         Ticket ticket = ticketDAO.getTicket("ABCDEF");
         assertEquals("ABCDEF", ticket.getVehicleRegNumber());
-        assertEquals(new ParkingSpot(1, ParkingType.CAR, false), ticket.getParkingSpot());
+        assertEquals(new ParkingSpot(1, ParkingType.CAR,
+                false), ticket.getParkingSpot());
         assertNotNull(ticket.getInTime());
         assertNull(ticket.getOutTime());
         assertEquals(0, ticket.getPrice());
         assertFalse(ticket.getIsRegular());
-        assertEquals(2, parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR));
+        assertEquals(2, parkingSpotDAO
+                .getNextAvailableSlot(ParkingType.CAR));
     }
 
     @Test
     void testParkingLotExit() {
         //Given
-        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        ParkingService parkingService =
+                new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         FareCalculatorService fareCalculatorService = new FareCalculatorService();
         parkingService.processIncomingVehicle();
 
@@ -86,15 +92,18 @@ class ParkingDataBaseIT {
         Ticket ticket = ticketDAO.getTicket("ABCDEF");
 
         //Then
-        assertEquals((fareCalculatorService.calculateDuration(ticket) * Fare.CAR_RATE_PER_HOUR), ticket.getPrice());
-        assertEquals(1,parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR));
+        assertEquals((fareCalculatorService.calculateDuration(ticket)
+                * Fare.CAR_RATE_PER_HOUR), ticket.getPrice());
+        assertEquals(1,parkingSpotDAO
+                .getNextAvailableSlot(ParkingType.CAR));
         assertNotNull(ticket.getOutTime());
     }
 
     @Test
     void testParkingACarWhichIsAlreadyInsideParkingLot() throws UnsupportedEncodingException {
         //Given
-        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        ParkingService parkingService =
+                new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processIncomingVehicle();
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(outContent, true, "UTF-8");
@@ -104,20 +113,26 @@ class ParkingDataBaseIT {
         parkingService.processIncomingVehicle();
 
         //Then
-        assertTrue(outContent.toString("UTF-8").contains("The registered vehicle ABCDEF is already parked in the parking lot"));
+        assertTrue(outContent
+                .toString("UTF-8")
+                .contains("The registered vehicle ABCDEF is already parked in the parking lot"));
     }
 
     @Test
     void testParkingACarWhichReturningToParkingOneYearLater() {
         //Given
-        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-           ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+        ParkingService parkingService =
+                new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+           ParkingSpot parkingSpot =
+                   new ParkingSpot(1, ParkingType.CAR, false);
             Ticket ticket = new Ticket();
             ticket.setParkingSpot(parkingSpot);
             ticket.setVehicleRegNumber("ABCDEF");
             ticket.setPrice(30);
-            ticket.setInTime(LocalDateTime.now().minusYears(1).truncatedTo(ChronoUnit.MINUTES));
-            ticket.setOutTime(LocalDateTime.now().minusYears(1).plusHours(1).truncatedTo(ChronoUnit.MINUTES));
+            ticket.setInTime(LocalDateTime.now()
+                    .minusYears(1).truncatedTo(ChronoUnit.MINUTES));
+            ticket.setOutTime(LocalDateTime.now()
+                    .minusYears(1).plusHours(1).truncatedTo(ChronoUnit.MINUTES));
             ticket.setIsRegular(false);
             ticketDAO.saveTicket(ticket);
             parkingService.processIncomingVehicle();
@@ -135,7 +150,8 @@ class ParkingDataBaseIT {
     @Test
     void testExitingACarWhichAlreadyExitingParkingLot() throws UnsupportedEncodingException {
         //Given
-        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        ParkingService parkingService =
+                new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processIncomingVehicle();
         parkingService.processExitingVehicle();
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -146,6 +162,8 @@ class ParkingDataBaseIT {
         parkingService.processExitingVehicle();
 
         //Then
-        assertTrue(outContent.toString("UTF-8").contains("The registered vehicle ABCDEF isn't parked in the parking lot"));
+        assertTrue(outContent
+                .toString("UTF-8")
+                .contains("The registered vehicle ABCDEF isn't parked in the parking lot"));
     }
 }
