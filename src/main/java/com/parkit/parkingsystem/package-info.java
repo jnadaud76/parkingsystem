@@ -1,5 +1,6 @@
 /**
  * App Class.
+ *
  * <p>
  *     The purpose of this application is to process the entrances and exits
  *     of a parking lot by managing the available space and by calculating the
